@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/diagnosis_nav"
+    app:startDestination="@id/checkUpFragment">
+
+    <fragment
+        android:id="@+id/checkUpFragment"
+        android:name="com.example.vetuserapp.view.diagnosis.ui.CheckUpFragment"
+        android:label="fragment_check_up"
+        tools:layout="@layout/fragment_check_up" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.vetuserapp.view.diagnosis.ui.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/prescriptionFragment"
+        android:name="com.example.vetuserapp.view.diagnosis.ui.PrescriptionFragment"
+        android:label="fragment_prescription"
+        tools:layout="@layout/fragment_prescription" />
+</navigation>
