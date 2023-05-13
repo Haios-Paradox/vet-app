@@ -17,7 +17,7 @@ class ChatRepository(context: Context, auth: FirebaseAuth) {
         user: User,
         message: String,
         appointmentId:String,
-        onSuccess: (DocumentReference)-> Unit,
+        onSuccess: (DocumentSnapshot)-> Unit,
         onFailure: (Exception) -> Unit
     ) {
         if (ref == null) {
@@ -33,7 +33,11 @@ class ChatRepository(context: Context, auth: FirebaseAuth) {
             message,
         )
         chatCollectionRef.add(chat)
-            .addOnSuccessListener(onSuccess)
+            .addOnSuccessListener{
+                it.get().addOnSuccessListener {
+                    onSuccess(it)
+                }
+            }
             .addOnFailureListener(onFailure)
     }
 

@@ -4,9 +4,11 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
 import com.example.vetuserapp.data.AppointmentRepository
+import com.example.vetuserapp.data.ChatRepository
 import com.example.vetuserapp.data.DoctorRepository
 import com.example.vetuserapp.data.UserRepository
 import com.example.vetuserapp.model.data.Appointment
+import com.example.vetuserapp.model.data.Chat
 import com.example.vetuserapp.model.data.User
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -19,7 +21,8 @@ class MainRepository(
     private val appointment: AppointmentRepository,
     private val doctor: DoctorRepository,
     private val user: UserRepository,
-    private val auth : FirebaseAuth
+    private val chat: ChatRepository,
+    private val auth : FirebaseAuth,
 ) {
 
     private val uid = auth.currentUser?.uid
@@ -153,6 +156,38 @@ class MainRepository(
         )
     }
 
+    fun loadChat(
+        appointId: String,
+        onSuccess: (QuerySnapshot) -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        chat.loadChatMessages(
+            appointId, onSuccess, onFailure
+        )
+    }
+
+    fun observeChat(
+        appointId: String,
+        onSuccess: (DocumentSnapshot) -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        chat.observeIncomingMessages(
+            appointId,onSuccess,onFailure
+        )
+    }
+
+    fun sendMessage(
+        user:User,
+        appointId: String,
+        message:String,
+        onSuccess: (DocumentSnapshot) -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        chat.sendMessageToFirestore(
+            user, message,appointId, onSuccess, onFailure
+        )
+    }
+
     companion object {
         @Volatile
         private var instance: MainRepository? = null
@@ -166,7 +201,8 @@ class MainRepository(
                     val appointment = AppointmentRepository(context,auth)
                     val doctor = DoctorRepository(context,auth)
                     val user = UserRepository(context,auth)
-                    instance = MainRepository(appointment,doctor,user, auth)
+                    val chat = ChatRepository(context,auth)
+                    instance = MainRepository(appointment,doctor,user, chat, auth)
                 }
                 return instance as MainRepository
             }

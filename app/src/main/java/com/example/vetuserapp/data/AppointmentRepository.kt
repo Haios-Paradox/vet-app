@@ -58,5 +58,4 @@ class AppointmentRepository(context: Context, auth: FirebaseAuth) {
     }
 
 
-
 }
