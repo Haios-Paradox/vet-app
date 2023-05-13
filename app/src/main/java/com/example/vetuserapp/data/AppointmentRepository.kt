@@ -57,4 +57,6 @@ class AppointmentRepository(context: Context, auth: FirebaseAuth) {
             .addOnFailureListener(onFailure)
     }
 
+
+
 }

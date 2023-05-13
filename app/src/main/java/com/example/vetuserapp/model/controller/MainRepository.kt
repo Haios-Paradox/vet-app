@@ -1,6 +1,8 @@
 package com.example.vetuserapp.model.controller
 
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import com.example.vetuserapp.data.AppointmentRepository
 import com.example.vetuserapp.data.DoctorRepository
 import com.example.vetuserapp.data.UserRepository
@@ -8,11 +10,10 @@ import com.example.vetuserapp.model.data.Appointment
 import com.example.vetuserapp.model.data.User
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.ktx.Firebase
 
 class MainRepository(
     private val appointment: AppointmentRepository,
@@ -151,7 +152,6 @@ class MainRepository(
             doctorId,onSuccess,onFailure
         )
     }
-
 
     companion object {
         @Volatile

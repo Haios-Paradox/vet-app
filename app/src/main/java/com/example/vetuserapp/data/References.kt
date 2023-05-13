@@ -13,4 +13,5 @@ class References(auth:String) {
     val userDataRef = db.collection(USER_COL).document(auth)
     val doctorColRef = db.collection(DOCTOR_COL)
     val appointColRef = db.collection(APPOINT_COL)
+
 }
