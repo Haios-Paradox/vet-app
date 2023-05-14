@@ -12,6 +12,7 @@ import com.example.vetuserapp.model.data.Chat
 import com.example.vetuserapp.model.data.User
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -25,7 +26,11 @@ class MainRepository(
     private val auth : FirebaseAuth,
 ) {
 
-    private val uid = auth.currentUser?.uid
+    val uid = auth.currentUser?.uid
+
+    fun getUser(): FirebaseUser? {
+        return auth.currentUser
+    }
 
     /**
      * Login function...
