@@ -2,16 +2,12 @@ package com.example.vetuserapp.view.doctors
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.vetuserapp.model.controller.MainRepository
 import com.example.vetuserapp.model.data.Appointment
-import com.example.vetuserapp.model.data.Queue
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.toObject
 
-class DoctorsViewModel(private val repo:MainRepository) {
-
-    private val _queueList = MutableLiveData<List<Queue>>()
-    val queueList: LiveData<List<Queue>> = _queueList
+class DoctorsViewModel(private val repo:MainRepository) : ViewModel(){
 
     private val _appointment = MutableLiveData<DocumentSnapshot>()
     val appointment: LiveData<DocumentSnapshot> = _appointment
@@ -35,19 +31,7 @@ class DoctorsViewModel(private val repo:MainRepository) {
     }
 
     fun checkQueue(id:String){
-        repo.getAllDoctorAppointment(
-            id,
-            onSuccess = {
-                val appointments = it.sortedBy { it.getTimestamp("timestamp") }
-                    .mapIndexed { index, document ->
-                        Queue(document.id, index + 1) // Assign queue number based on index
-                    }
-                _queueList.value = appointments
-            },
-            onFailure = {
-                _error.value = it
-            }
-        )
+        //TODO: Implement Queue Check
     }
 
     fun createAppointment(appointment: Appointment){

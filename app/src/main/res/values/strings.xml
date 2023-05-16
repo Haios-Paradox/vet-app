@@ -26,5 +26,9 @@
 
     <string name="nav_drawer_open">Open Navigation Drawer</string>
     <string name="nav_drawer_close">Close Navigation Drawer</string>
+    <string name="title_home">Home</string>
+    <string name="title_doctor">Specialists</string>
+    <string name="title_history">History</string>
+    <string name="title_profile">Profile</string>
 
 </resources>

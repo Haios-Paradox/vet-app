@@ -141,7 +141,9 @@ class MainRepository(
         onFailure: (Exception) -> Unit
     ){
         appointment.getAllUserAppointments(
-            uid,onSuccess,onFailure
+            uid,
+            onSuccess,
+            onFailure
         )
     }
 

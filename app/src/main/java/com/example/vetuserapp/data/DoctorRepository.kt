@@ -35,4 +35,17 @@ class DoctorRepository(context: Context, auth: FirebaseAuth) {
             .addOnSuccessListener(onSuccess)
             .addOnFailureListener(onFailure)
     }
+
+    fun getSpecialist(
+        onSuccess: (QuerySnapshot) -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        if (ref == null) {
+            onFailure(Exception("User Not Logged In"))
+            return
+        }
+        ref.specialistColRef.get()
+            .addOnSuccessListener(onSuccess)
+            .addOnFailureListener(onFailure)
+    }
 }
