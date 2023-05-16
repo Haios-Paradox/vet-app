@@ -26,7 +26,6 @@
 
         <View
             android:id="@+id/view1"
-            style="@style/Divider"
             android:layout_marginLeft="64dp"
             android:layout_marginRight="64dp"
             android:backgroundTint="@color/black"
@@ -36,8 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/prescriptionTextView"
-            app:layout_constraintVertical_bias="0.494"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintVertical_bias="0.494" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textNameLayout"
@@ -273,7 +271,6 @@
 
         <View
             android:id="@+id/view2"
-            style="@style/Divider"
             android:layout_marginBottom="440dp"
             android:backgroundTint="@color/black"
             android:outlineAmbientShadowColor="@color/black"
@@ -391,7 +388,6 @@
 
         <View
             android:id="@+id/view3"
-            style="@style/Divider"
             android:layout_marginBottom="420dp"
             android:backgroundTint="@color/black"
             android:outlineAmbientShadowColor="@color/black"

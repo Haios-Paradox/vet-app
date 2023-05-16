@@ -7,15 +7,13 @@
     tools:context=".view.doctors.ui.DoctorAppointmentFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Patient_Booking_Appointments">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
             android:layout_marginTop="48dp"
             android:src="@drawable/ic_baseline_person_24"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +26,7 @@
             android:layout_marginTop="48dp"
             android:gravity="center_horizontal"
             android:textAlignment="center"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -42,7 +40,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:textAlignment="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -70,12 +68,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/abc"
-            app:selectorColor="@android:color/black"
-            app:textColorNormal="@color/teal_700"
-            app:textColorSelected="@color/teal_200"
-
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintTop_toBottomOf="@+id/abc" />
 
         <TextView
             android:id="@+id/textView30"

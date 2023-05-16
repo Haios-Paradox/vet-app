@@ -22,13 +22,14 @@ class DoctorListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentDoctorListBinding.inflate(layoutInflater,container, false)
         binding.rvDoctorList.layoutManager = LinearLayoutManager(requireActivity())
-        doctorsViewModel = ViewModelProvider(requireActivity()).get(DoctorsViewModel::class.java)
+        doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java]
         doctorsViewModel.doctorList.observe(requireActivity()){data ->
             val doctors = data.map{it.toObject<Doctor>()}
-            //put adapters here~
+            adapter = DoctorAdapter(doctors as List<Doctor>)
+            binding.rvDoctorList.adapter = adapter
         }
         return binding.root
     }

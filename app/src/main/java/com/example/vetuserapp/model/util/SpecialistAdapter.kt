@@ -34,4 +34,6 @@ class SpecialistAdapter(private val specialist: List<Specialist>): RecyclerView.
     }
 }
 
-class ViewHolderSpecialist(val binding : ItemSpecialistCardBinding):RecyclerView.ViewHolder(binding.root)
+class ViewHolderSpecialist(
+    val binding : ItemSpecialistCardBinding
+    ):RecyclerView.ViewHolder(binding.root)
