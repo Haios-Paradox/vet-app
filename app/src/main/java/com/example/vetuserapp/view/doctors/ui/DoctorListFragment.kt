@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.vetuserapp.controller.doctors.DoctorsViewModel
 import com.example.vetuserapp.databinding.FragmentDoctorListBinding
 import com.example.vetuserapp.model.data.Doctor
 import com.example.vetuserapp.model.util.DoctorAdapter
-import com.example.vetuserapp.view.doctors.DoctorsViewModel
 import com.google.firebase.firestore.ktx.toObject
 
 class DoctorListFragment : Fragment() {

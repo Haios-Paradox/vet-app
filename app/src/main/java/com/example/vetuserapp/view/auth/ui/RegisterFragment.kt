@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.vetuserapp.R
-import com.example.vetuserapp.databinding.FragmentLoginBinding
 import com.example.vetuserapp.databinding.FragmentRegisterBinding
 import com.example.vetuserapp.model.data.User
-import com.example.vetuserapp.view.auth.AuthViewModel
+import com.example.vetuserapp.controller.auth.AuthViewModel
 
 class RegisterFragment : Fragment() {
 

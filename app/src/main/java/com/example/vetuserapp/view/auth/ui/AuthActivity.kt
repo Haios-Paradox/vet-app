@@ -1,16 +1,14 @@
 package com.example.vetuserapp.view.auth.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.vetuserapp.R
+import com.example.vetuserapp.controller.auth.AuthViewModel
 import com.example.vetuserapp.databinding.ActivityAuthBinding
-import com.example.vetuserapp.model.util.ViewModelFactory
-import com.example.vetuserapp.view.auth.AuthViewModel
 import com.example.vetuserapp.view.main.ui.MainActivity
-import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {
 
@@ -20,7 +18,7 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
 
-        authViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[AuthViewModel::class.java]
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
         authViewModel.loggedInUser.observe(this){
             if(it==null)

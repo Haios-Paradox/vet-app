@@ -1,6 +1,6 @@
 package com.example.vetuserapp.model.data
 
-data class Perscription(
+data class Prescription(
     val appointmentId: String,
     val meds: List<String>
 )

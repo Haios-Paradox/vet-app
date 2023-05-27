@@ -1,23 +1,31 @@
-package com.example.vetuserapp.data
+package com.example.vetuserapp.model.repositories
 
-import android.content.Context
+import com.example.vetuserapp.model.util.References
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-class DoctorRepository(context: Context, auth: FirebaseAuth) {
-    private val ref = auth.currentUser?.let { References(it.uid) }
+object DoctorRepository {
 
-
+    private val auth = FirebaseAuth.getInstance()
+    private val db: FirebaseFirestore by lazy {
+        Firebase.firestore
+    }
+    private val doctorRef = db.collection(References.DOCTOR_COL)
+    private val specRef = db.collection(References.SPEC_COL)
     fun getDoctors(
         onSuccess: (QuerySnapshot) -> Unit,
         onFailure: (Exception) -> Unit
     ){
-        if (ref == null) {
+        val uid = auth.uid
+        if (uid == null) {
             onFailure(Exception("User Not Logged In"))
             return
         }
 
-        ref.doctorColRef.get()
+        doctorRef.get()
             .addOnSuccessListener(onSuccess)
             .addOnFailureListener(onFailure)
     }
@@ -27,11 +35,12 @@ class DoctorRepository(context: Context, auth: FirebaseAuth) {
         onSuccess: (QuerySnapshot) -> Unit,
         onFailure: (Exception) -> Unit
     ){
-        if (ref == null) {
+        val uid = auth.uid
+        if (uid == null) {
             onFailure(Exception("User Not Logged In"))
             return
         }
-        ref.doctorColRef.whereEqualTo("specialist",specialist).get()
+        doctorRef.whereEqualTo("specialist",specialist).get()
             .addOnSuccessListener(onSuccess)
             .addOnFailureListener(onFailure)
     }
@@ -40,11 +49,7 @@ class DoctorRepository(context: Context, auth: FirebaseAuth) {
         onSuccess: (QuerySnapshot) -> Unit,
         onFailure: (Exception) -> Unit
     ){
-        if (ref == null) {
-            onFailure(Exception("User Not Logged In"))
-            return
-        }
-        ref.specialistColRef.get()
+        specRef.get()
             .addOnSuccessListener(onSuccess)
             .addOnFailureListener(onFailure)
     }

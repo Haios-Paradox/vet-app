@@ -1,16 +1,14 @@
 package com.example.vetuserapp.view.auth.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.vetuserapp.R
-import com.example.vetuserapp.databinding.ActivityAuthBinding
+import com.example.vetuserapp.controller.auth.AuthViewModel
 import com.example.vetuserapp.databinding.FragmentLoginBinding
-import com.example.vetuserapp.view.auth.AuthViewModel
 
 class LoginFragment : Fragment() {
 

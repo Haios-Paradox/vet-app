@@ -1,19 +1,15 @@
 package com.example.vetuserapp.view.main.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.vetuserapp.R
-import com.example.vetuserapp.databinding.FragmentProfileBinding
+import com.example.vetuserapp.controller.main.HomeViewModel
 import com.example.vetuserapp.databinding.FragmentSpecialistBinding
-import com.example.vetuserapp.model.data.Specialist
 import com.example.vetuserapp.model.util.SpecialistAdapter
-import com.example.vetuserapp.view.main.HomeViewModel
-import com.google.firebase.firestore.ktx.toObject
 
 class SpecialistFragment : Fragment() {
     private lateinit var binding : FragmentSpecialistBinding
@@ -30,7 +26,7 @@ class SpecialistFragment : Fragment() {
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
 
         homeViewModel.specialistList.observe(requireActivity()){data ->
-            val specialist = data.map{it.toObject<Specialist>()}
+            val specialist = data
             adapter = SpecialistAdapter(specialist)
             binding.rvSpecialist.adapter = adapter
         }

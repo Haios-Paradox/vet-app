@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.vetuserapp.R
 import com.example.vetuserapp.databinding.ItemSpecialistCardBinding
 import com.example.vetuserapp.model.data.Specialist
 
@@ -27,7 +28,7 @@ class SpecialistAdapter(private val specialist: List<Specialist>): RecyclerView.
             with(binding){
                 tvSpecialty.text = specialist[position].name
                 Glide.with(ivSpecialty)
-                    .load(specialist[position].picture)
+                    .load(specialist[position].picture?: R.drawable.ic_profile)
                     .into(ivSpecialty)
             }
         }

@@ -5,19 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.vetuserapp.R
+import com.example.vetuserapp.controller.main.HomeViewModel
 import com.example.vetuserapp.databinding.ActivityMainBinding
-import com.example.vetuserapp.model.util.ViewModelFactory
-import com.example.vetuserapp.view.main.HomeViewModel
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var homeViewModel:HomeViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        homeViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this)).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(
+            HomeViewModel::class.java)
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){

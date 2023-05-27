@@ -24,9 +24,9 @@ class AppointmentAdapter(private val appointment: List<Appointment>): RecyclerVi
     override fun onBindViewHolder(holder: ViewHolderAppointment, position: Int) {
         with(holder){
             with(binding){
-                tvAppoDate.text = appointment[position].timeCreated.toString()
+                tvAppoDate.text = appointment[position].timestamp.toString()
                 tvNameDoctor.text = appointment[position].doctorName.toString()
-                tvStatus.text = appointment[position].status.toString()
+                tvStatus.text = appointment[position].complete.toString()
             }
         }
     }
