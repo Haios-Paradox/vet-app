@@ -1,5 +1,6 @@
 package com.example.vetuserapp.view.main.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.vetuserapp.controller.main.HomeViewModel
 import com.example.vetuserapp.databinding.FragmentSpecialistBinding
+import com.example.vetuserapp.model.data.Specialist
 import com.example.vetuserapp.model.util.SpecialistAdapter
+import com.example.vetuserapp.view.doctors.ui.DoctorsActivity
 
 class SpecialistFragment : Fragment() {
     private lateinit var binding : FragmentSpecialistBinding
@@ -28,6 +31,14 @@ class SpecialistFragment : Fragment() {
         homeViewModel.specialistList.observe(requireActivity()){data ->
             val specialist = data
             adapter = SpecialistAdapter(specialist)
+            adapter.setOnItemClickCallback(object : SpecialistAdapter.OnItemClickCallback {
+                override fun onItemClicked(data: Specialist) {
+                    startActivity(
+                        Intent(requireActivity(), DoctorsActivity::class.java)
+                            .putExtra(DoctorsActivity.SPECIALIST, data.name)
+                    )
+                }
+            })
             binding.rvSpecialist.adapter = adapter
         }
 

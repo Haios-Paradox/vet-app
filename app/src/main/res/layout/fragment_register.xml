@@ -369,21 +369,6 @@
                     android:padding="6dp"
                     android:textSize="16sp" />
 
-                <EditText
-                    android:id="@+id/editText_confim"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textView_register_password"
-                    android:layout_marginStart="-2dp"
-                    android:layout_marginTop="53dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_toEndOf="@id/imageViewPwd"
-                    android:background="@android:color/transparent"
-                    android:hint="Confim Password"
-                    android:inputType="textPassword"
-                    android:padding="6dp"
-                    android:textSize="16sp" />
-
                 <ImageView
                     android:id="@+id/imageView_show_hide_pwd"
                     android:layout_width="33dp"

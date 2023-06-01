@@ -5,42 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.diagnosis.ui.ChatFragment">
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/barLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-            >
-
-            <ImageView
-                android:id="@+id/profileImageChat"
-                android:layout_width="32dp"
-                android:layout_height="32dp"/>
-
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="28dp"
-                android:textStyle="bold"
-                android:textColor="#fff"
-                android:layout_marginStart="28dp"/>
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rv_chat"
-        android:layout_below="@+id/barLayout"
         android:layout_above="@+id/bottom"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginBottom="20dp">
 
 

@@ -15,7 +15,7 @@
         android:label="fragment_doctor_list"
         tools:layout="@layout/fragment_doctor_list" />
     <fragment
-        android:id="@+id/doctorQueueFragment"
+        android:id="@+id/doctorAppointmentFragment"
         android:name="com.example.vetuserapp.view.doctors.ui.DoctorAppointmentFragment"
         android:label="fragment_doctor_queue"
         tools:layout="@layout/fragment_doctor_appointment" />

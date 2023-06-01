@@ -1,15 +1,15 @@
 package com.example.vetuserapp.view.auth.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.vetuserapp.controller.auth.AuthViewModel
 import com.example.vetuserapp.databinding.FragmentRegisterBinding
 import com.example.vetuserapp.model.data.User
-import com.example.vetuserapp.controller.auth.AuthViewModel
 
 class RegisterFragment : Fragment() {
 
@@ -33,11 +33,13 @@ class RegisterFragment : Fragment() {
             if(email.isNotEmpty() && pass.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty())
                 authViewModel.register(
                     email,pass,
-                    User(name,phone)
+                    User(name,email,phone)
                 )
             else
                 Toast.makeText(requireActivity(),"Please Fill In All Fields", Toast.LENGTH_SHORT).show()
         }
+
+
 
 
 

@@ -9,7 +9,7 @@ data class Doctor(
     val experience: String?=null,
     val description: String?=null,
     val fee: Double?=null,
-    var limit: Int?=null,
+    var limit: Int?=0,
     var available : Boolean?=false,
     val queue: List<String>?= emptyList(),
 )

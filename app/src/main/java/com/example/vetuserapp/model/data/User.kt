@@ -8,5 +8,6 @@ data class User(
     val phone: String?=null,
     val avatar: String?=null,
     val gender: String?=null,
+    val desc: String?=null,
     val dob: Date?=null,
 )

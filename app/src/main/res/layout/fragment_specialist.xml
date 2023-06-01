@@ -30,6 +30,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSpecialistTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvSpecialistTitle"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/item_specialist_card" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -16,27 +16,30 @@ object UserRepository{
     }
     private val userRef = db.collection(References.USER_COL)
 
-    fun getUserData(
-        onSuccess : (DocumentSnapshot) -> Unit,
-        onFailure : (Exception) -> Unit
-    ){
+    suspend fun getUserData(): Result<DocumentSnapshot?> {
         val uid = auth.uid
-        if (uid == null) {
-            onFailure(Exception("User Not Logged In"))
-            return
-        }
-        else{
-            userRef.document(uid).get()
-                .addOnSuccessListener(onSuccess)
-                .addOnFailureListener(onFailure)
+        return if (uid == null) {
+            Result.failure(Exception("User Not Logged In"))
+        } else{
+            try{
+                val doc = userRef.document(uid).get().await()
+                Result.success(doc)
+            }catch (e:Exception){
+                Result.failure(e)
+            }
         }
     }
 
     suspend fun createOrUpdateUserData(
         userData: User,
-    ){
-        val uid = auth.uid ?: throw (Exception("User Not Logged In"))
-        db.collection(References.USER_COL).document(uid).set(userData).await()
+    ):Result<Void>{
+        val uid = auth.uid ?: return Result.failure(Exception("User Not Logged In"))
+        return try{
+            val result = db.collection(References.USER_COL).document(uid).set(userData).await()
+            Result.success(result)
+        }catch (e:Exception){
+            Result.failure(e)
+        }
     }
 
 }

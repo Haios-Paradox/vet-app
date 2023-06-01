@@ -31,34 +31,37 @@ class HomeViewModel : ViewModel() {
     init{
         getUserAppointment()
         getUserData()
+        getSpecialist()
     }
 
     fun getUserAppointment(){
-        AppointmentRepository.getAllUserAppointmentsHistory(
-            onSuccess = {query ->
-                _appointmentList.value = query.map { it.toObject() }
-            },
-            onFailure = {
-                _error.value = it
+        viewModelScope.launch {
+            try{
+                val result = AppointmentRepository.getAllUserAppointmentsHistory().getOrThrow()
+                if (result != null) {
+                    _appointmentList.value = result.map { it.toObject() }
+                }
+            }catch (e:Exception){
+                _error.value = e
             }
-        )
-    }
 
+        }
+
+    }
     fun getUserData(){
-        UserRepository.getUserData(
-            onSuccess = {
-                _userData.value = it
-            },
-            onFailure = {
-                _error.value = it
+        viewModelScope.launch {
+            try{
+                _userData.value = UserRepository.getUserData().getOrThrow()
+            }catch (e:Exception){
+                _error.value = e
             }
-        )
+        }
     }
 
     fun updateUserData(userData: User){
         viewModelScope.launch {
             try{
-                UserRepository.createOrUpdateUserData(userData)
+                UserRepository.createOrUpdateUserData(userData).getOrThrow()
             }catch(e:Exception) {
                 _error.value = e
             }
@@ -66,14 +69,15 @@ class HomeViewModel : ViewModel() {
     }
 
     fun getSpecialist(){
-        DoctorRepository.getSpecialist(
-            onSuccess = {query ->
-                _specialistList.value = query.map{it.toObject()}
-            },
-            onFailure = {
-                _error.value = it
+        viewModelScope.launch {
+            try{
+                val specialist = DoctorRepository.getSpecialist().getOrThrow()
+                _specialistList.value = specialist?.map{it.toObject()}
+            }catch(e:Exception){
+                _error.value = e
             }
-        )
+        }
+
     }
 
 }

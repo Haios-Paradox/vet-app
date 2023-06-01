@@ -1,11 +1,12 @@
 package com.example.vetuserapp.model.data
 
-import java.sql.Timestamp
-
 data class Chat(
-    val senderType: Int?=null, //Patient =0, Doctor =1
-    val name: String?=null,
+    val chatId: String?= null,
+    val senderType: Int?= null, //Patient =0, Doctor =1
+    val name: String?= null,
     val avatar: String ?= null,
     val message: String ?= null,
-    val timestamp: Timestamp ?= null,
+    val sender: String?= null,
+    var content: String?= null, //ANY MEDIA CONTENT ATTACHED
+    val timestamp: Long?= null,
 )

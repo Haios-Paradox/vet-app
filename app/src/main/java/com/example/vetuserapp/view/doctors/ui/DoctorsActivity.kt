@@ -11,10 +11,19 @@ class DoctorsActivity : AppCompatActivity() {
     private lateinit var doctorsViewModel: DoctorsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val specialist = intent.getStringExtra(SPECIALIST)
         binding = ActivityDoctorsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         doctorsViewModel = ViewModelProvider(this).get(
             DoctorsViewModel::class.java)
+        if(specialist!=null && specialist!="")
+            doctorsViewModel.getDoctors(specialist)
+        else
+            doctorsViewModel.getDoctors()
+    }
+
+    companion object{
+        const val SPECIALIST = "specialist"
     }
 }

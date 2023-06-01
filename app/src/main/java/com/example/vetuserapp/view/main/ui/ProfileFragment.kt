@@ -26,12 +26,25 @@ class ProfileFragment : Fragment() {
 
         homeViewModel.userData.observe(requireActivity()){
             val userData = it.toObject<User>()
+            binding.tvProfileName.text = (userData?.name?:"N/A")
             binding.edProfileName.setText(userData?.name?:"N/A")
             binding.edProfileEmail.setText(userData?.email?:"N/A")
             binding.edProfileDob.setText(userData?.dob?.toString()?:"N/A")
             binding.edHomePhone.setText(userData?.phone?:"N/A")
+            binding.edProfileDesc.setText(userData?.desc?:"N/A")
         }
-
+        binding.fabEditProfile.setOnClickListener {
+            homeViewModel.updateUserData(
+                User(
+                    binding.edProfileName.text.toString(),
+                    binding.edProfileEmail.text.toString(),
+                    binding.edHomePhone.text.toString(),
+                    null,
+                    "",
+                    binding.edProfileDesc.text.toString(),
+                )
+            )
+        }
         return binding.root
     }
 

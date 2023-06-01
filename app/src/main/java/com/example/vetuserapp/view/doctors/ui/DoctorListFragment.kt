@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.vetuserapp.R
 import com.example.vetuserapp.controller.doctors.DoctorsViewModel
 import com.example.vetuserapp.databinding.FragmentDoctorListBinding
-import com.example.vetuserapp.model.data.Doctor
 import com.example.vetuserapp.model.util.DoctorAdapter
-import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.DocumentSnapshot
 
 class DoctorListFragment : Fragment() {
 
@@ -27,8 +28,14 @@ class DoctorListFragment : Fragment() {
         binding.rvDoctorList.layoutManager = LinearLayoutManager(requireActivity())
         doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java]
         doctorsViewModel.doctorList.observe(requireActivity()){data ->
-            val doctors = data.map{it.toObject<Doctor>()}
-            adapter = DoctorAdapter(doctors as List<Doctor>)
+            val doctors = data
+            adapter = DoctorAdapter(doctors)
+            adapter.setOnItemClickCallback(object : DoctorAdapter.OnItemClickCallback {
+                override fun onItemClicked(data: DocumentSnapshot) {
+                    doctorsViewModel.selectedDoctor = data
+                    findNavController().navigate(R.id.doctorDetailFragment)
+                }
+            })
             binding.rvDoctorList.adapter = adapter
         }
         return binding.root

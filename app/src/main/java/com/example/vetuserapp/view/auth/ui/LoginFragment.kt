@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.example.vetuserapp.R
 import com.example.vetuserapp.controller.auth.AuthViewModel
 import com.example.vetuserapp.databinding.FragmentLoginBinding
 
@@ -30,6 +32,10 @@ class LoginFragment : Fragment() {
                 authViewModel.login(email,pass)
             else
                 Toast.makeText(requireActivity(),"Please Fill In All Fields", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.textViewRegisterLink.setOnClickListener {
+            it.findNavController().navigate(R.id.registerFragment)
         }
 
 

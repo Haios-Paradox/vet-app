@@ -1,14 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.diagnosis.ui.CheckUpFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hewwo~" />
+        android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/btnStartCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="payment"
+            app:layout_constraintEnd_toEndOf="@+id/tvQueueBigNumber"
+            app:layout_constraintStart_toStartOf="@+id/tvQueueBigNumber"
+            app:layout_constraintTop_toBottomOf="@+id/tvQueueBigNumber" />
+
+        <TextView
+            android:id="@+id/lblQueue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Current Queue"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.521"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCheckDoctorSpecialty" />
+
+        <TextView
+            android:id="@+id/tvQueueBigNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="##"
+            android:textSize="96sp"
+            app:layout_constraintEnd_toEndOf="@+id/lblQueue"
+            app:layout_constraintStart_toStartOf="@+id/lblQueue"
+            app:layout_constraintTop_toBottomOf="@+id/lblQueue" />
+
+        <ImageView
+            android:id="@+id/ivDoctorCheckup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvCheckDoctorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/ivDoctorCheckup"
+            app:layout_constraintStart_toStartOf="@+id/ivDoctorCheckup"
+            app:layout_constraintTop_toBottomOf="@+id/ivDoctorCheckup" />
+
+        <TextView
+            android:id="@+id/tvCheckDoctorSpecialty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="@+id/tvCheckDoctorName"
+            app:layout_constraintStart_toStartOf="@+id/tvCheckDoctorName"
+            app:layout_constraintTop_toBottomOf="@+id/tvCheckDoctorName" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Please Complete the Payment"
+            app:layout_constraintEnd_toEndOf="@+id/btnStartCheck"
+            app:layout_constraintStart_toStartOf="@+id/btnStartCheck"
+            app:layout_constraintTop_toBottomOf="@+id/btnStartCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -6,8 +6,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.vetuserapp.databinding.ItemDoctorRowBinding
 import com.example.vetuserapp.model.data.Doctor
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.toObject
 
-class DoctorAdapter(private val doctors: List<Doctor>): RecyclerView.Adapter<ViewHolderDoctor>() {
+class DoctorAdapter(private val doctors: List<DocumentSnapshot>): RecyclerView.Adapter<ViewHolderDoctor>() {
+
+    private lateinit var onItemClickCallback: OnItemClickCallback
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
+
+
+    interface OnItemClickCallback{
+        fun onItemClicked(data: DocumentSnapshot)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDoctor {
         val binding = ItemDoctorRowBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -21,11 +34,15 @@ class DoctorAdapter(private val doctors: List<Doctor>): RecyclerView.Adapter<Vie
     override fun onBindViewHolder(holder: ViewHolderDoctor, position: Int) {
         with(holder){
             with(binding){
-                tvDoctorName.text = doctors[position].name
-                tvDoctorSpecialist.text = doctors[position].specialist
+                val doctor = doctors[position].toObject<Doctor>()
+                tvDoctorName.text = doctor?.name
+                tvDoctorSpecialist.text =doctor?.specialist
                 Glide.with(ivRowDoctorImage)
-                    .load(doctors[position].avatar)
+                    .load(doctor?.avatar)
                     .into(ivRowDoctorImage)
+                binding.root.setOnClickListener {
+                    onItemClickCallback.onItemClicked(doctors[position])
+                }
             }
         }
     }

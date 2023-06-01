@@ -9,6 +9,16 @@ import com.example.vetuserapp.databinding.ItemSpecialistCardBinding
 import com.example.vetuserapp.model.data.Specialist
 
 class SpecialistAdapter(private val specialist: List<Specialist>): RecyclerView.Adapter<ViewHolderSpecialist>() {
+
+    private lateinit var onItemClickCallback: OnItemClickCallback
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
+    interface OnItemClickCallback{
+        fun onItemClicked(data:Specialist)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSpecialist {
         val binding = ItemSpecialistCardBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -30,6 +40,9 @@ class SpecialistAdapter(private val specialist: List<Specialist>): RecyclerView.
                 Glide.with(ivSpecialty)
                     .load(specialist[position].picture?: R.drawable.ic_profile)
                     .into(ivSpecialty)
+                binding.root.setOnClickListener {
+                    onItemClickCallback.onItemClicked(specialist[position])
+                }
             }
         }
     }
