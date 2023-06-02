@@ -39,6 +39,8 @@ object AppointmentRepository {
         }
     }
 
+    //TODO: 02 06 2023, IMPLEMENT THE SHOWING QUEUE AT CHECKUP SCREEN
+
     suspend fun getUserQueue(appointmentId: String, doctorId: String): Result<Int> {
         try{
             val docDoctor = doctorRef.document(doctorId).get().await()
