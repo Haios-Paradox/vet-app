@@ -1,13 +1,11 @@
 package com.example.vetuserapp.controller.diagnosis
 
 import androidx.lifecycle.*
-import com.example.vetuserapp.model.data.Appointment
-import com.example.vetuserapp.model.data.Chat
-import com.example.vetuserapp.model.data.Doctor
-import com.example.vetuserapp.model.data.Prescription
+import com.example.vetuserapp.model.data.*
 import com.example.vetuserapp.model.repositories.AppointmentRepository
 import com.example.vetuserapp.model.repositories.ChatRepository
 import com.example.vetuserapp.model.repositories.DoctorRepository
+import com.example.vetuserapp.model.repositories.UserRepository
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.launch
@@ -15,6 +13,9 @@ import kotlinx.coroutines.launch
 class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     private val _error = MutableLiveData<Exception>()
     val error: LiveData<Exception> = _error
+
+    private val _user = MutableLiveData<User>()
+    val user : LiveData<User> = _user
 
     private val _chatData = MutableLiveData<List<Chat>>()
     val chatData: LiveData<List<Chat>> = _chatData
@@ -28,9 +29,21 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     private val _appointment = MutableLiveData<Appointment>()
     val appointment: LiveData<Appointment> = _appointment
 
+    private val _queue = MutableLiveData<Int>()
+    val queue: LiveData<Int> = _queue
+
     init{
         loadChats(appointmentId)
-        loadAppointment()
+    }
+
+    fun getUser(){
+        viewModelScope.launch {
+            try{
+                _user.value = UserRepository.getUserData().getOrThrow()!!.toObject()
+            }catch (e:Exception){
+                _error.value = e
+            }
+        }
     }
 
     fun getDoctor(id:String){
@@ -43,11 +56,13 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
         }
     }
 
-    fun loadAppointment(){
+    fun loadAppointment(id:String){
         viewModelScope.launch {
             try{
-                val result = AppointmentRepository.getAppointment(appointmentId).getOrThrow()
-                _appointment.value = result.toObject()
+                val appointment = AppointmentRepository.getAppointment(appointmentId).getOrThrow()
+                val numQueue = AppointmentRepository.getUserQueue(appointmentId,id).getOrThrow()
+                _appointment.value = appointment.toObject()
+                _queue.value = numQueue
             }catch (e:Exception){
                 _error.value = e
             }
@@ -61,7 +76,7 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
         }
     }
 
-    fun sendChat(appointmentId: String, message: Chat){
+    fun sendChat(message: Chat){
         viewModelScope.launch {
             try {
                 ChatRepository.sendMessage(appointmentId,message)
@@ -71,8 +86,16 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
         }
     }
 
-    suspend fun getQueue(appointmentId: String, doctorId:String){
-        AppointmentRepository.getDoctorQueue(doctorId)
+    fun getQueue(appointmentId: String, doctorId:String){
+        viewModelScope.launch {
+            try{
+                AppointmentRepository.getUserQueue(appointmentId, doctorId)
+            }catch (e:Exception){
+                _error.value = e
+            }
+
+        }
+
     }
 
 }

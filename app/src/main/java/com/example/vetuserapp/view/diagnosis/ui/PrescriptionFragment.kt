@@ -15,10 +15,16 @@ class PrescriptionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentPrescriptionBinding.inflate(inflater,container,false)
-        diagnosisViewModel = ViewModelProvider(requireActivity()).get(DiagnosisViewModel::class.java)
-        // Inflate the layout for this fragment
+        diagnosisViewModel = ViewModelProvider(requireActivity())[DiagnosisViewModel::class.java]
+
+        diagnosisViewModel.prescription.observe(requireActivity()){
+            binding.tvAnalysis.text = it.analysis
+            binding.tvDoctorNamePrescription.text = it.name
+            binding.tvTreatment.text = it.treatment
+        }
+
         return binding.root
     }
 

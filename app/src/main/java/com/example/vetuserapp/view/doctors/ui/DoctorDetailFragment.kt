@@ -28,7 +28,6 @@ class DoctorDetailFragment : Fragment() {
         val doctor = selection?.toObject<Doctor>()
         if(doctor!=null) setupView(doctor)
 
-
         return binding.root
     }
 

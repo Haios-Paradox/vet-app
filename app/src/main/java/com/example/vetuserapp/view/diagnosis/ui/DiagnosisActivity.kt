@@ -19,6 +19,7 @@ class DiagnosisActivity : AppCompatActivity() {
             diagnosisViewModel = ViewModelProvider(this,ViewModelFactory(appointmentId))[DiagnosisViewModel::class.java].also { vm->
                 vm.appointment.observe(this){
                     vm.getDoctor(it.doctorId!!)
+                    vm.getQueue(appointmentId,it.doctorId)
                 }
             }
         }

@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.example.vetuserapp.R
 import com.example.vetuserapp.controller.diagnosis.DiagnosisViewModel
 import com.example.vetuserapp.databinding.FragmentCheckUpBinding
 
@@ -23,7 +25,17 @@ class CheckUpFragment : Fragment() {
             binding.tvCheckDoctorSpecialty.text = it.specialist
         }
 
-        diagnosisViewModel
+        diagnosisViewModel.queue.observe(requireActivity()){
+            binding.tvQueueBigNumber.text = it.toString()
+        }
+
+        binding.btnStartCheck.setOnClickListener {
+            it.findNavController().navigate(R.id.chatFragment)
+        }
+
+        binding.btnPrescription.setOnClickListener {
+            it.findNavController().navigate(R.id.prescriptionFragment)
+        }
 
         return binding.root
     }
