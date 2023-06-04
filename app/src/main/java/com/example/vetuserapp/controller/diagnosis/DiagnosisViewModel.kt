@@ -56,11 +56,11 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
         }
     }
 
-    fun loadAppointment(id:String){
+    fun loadAppointment(doctorId:String){
         viewModelScope.launch {
             try{
                 val appointment = AppointmentRepository.getAppointment(appointmentId).getOrThrow()
-                val numQueue = AppointmentRepository.getUserQueue(appointmentId,id).getOrThrow()
+                val numQueue = AppointmentRepository.getUserQueue(appointmentId,doctorId).getOrThrow()
                 _appointment.value = appointment.toObject()
                 _queue.value = numQueue
             }catch (e:Exception){

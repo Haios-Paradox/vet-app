@@ -1,5 +1,7 @@
 package com.example.vetuserapp.controller.main
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +15,7 @@ import com.example.vetuserapp.model.repositories.UserRepository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 class HomeViewModel : ViewModel() {
 
@@ -28,10 +31,21 @@ class HomeViewModel : ViewModel() {
     private val _error = MutableLiveData<Exception>()
     val error: LiveData<Exception> = _error
 
+    private val _imageBitmap = MutableLiveData<Bitmap?>()
+    val imageBitmap: LiveData<Bitmap?> = _imageBitmap
+
     init{
         getUserAppointment()
         getUserData()
         getSpecialist()
+    }
+
+    fun storeImage(bitmap: Bitmap, quality: Int) {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+        val compressedBitmap =
+            BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.size())
+        _imageBitmap.value = compressedBitmap
     }
 
     fun getUserAppointment(){
@@ -61,11 +75,24 @@ class HomeViewModel : ViewModel() {
     fun updateUserData(userData: User){
         viewModelScope.launch {
             try{
+
                 UserRepository.createOrUpdateUserData(userData).getOrThrow()
+                getUserData()
             }catch(e:Exception) {
                 _error.value = e
             }
         }
+    }
+
+    fun updateUserData(user:User, file:Bitmap){
+        viewModelScope.launch {
+            try{
+                UserRepository.createOrUpdateUserData(user,file)
+            }catch (e:Exception){
+                _error.value = e
+            }
+        }
+
     }
 
     fun getSpecialist(){

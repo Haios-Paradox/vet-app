@@ -40,6 +40,7 @@ class DoctorAdapter(private val doctors: List<DocumentSnapshot>): RecyclerView.A
                 Glide.with(ivRowDoctorImage)
                     .load(doctor?.avatar)
                     .into(ivRowDoctorImage)
+                tvItemQueue.text = (doctor?.queue?.size?:0).toString()
                 binding.root.setOnClickListener {
                     onItemClickCallback.onItemClicked(doctors[position])
                 }
