@@ -1,6 +1,7 @@
 package com.example.vetuserapp.view.diagnosis.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.vetuserapp.controller.diagnosis.DiagnosisViewModel
@@ -21,6 +22,10 @@ class DiagnosisActivity : AppCompatActivity() {
                     vm.getDoctor(it.doctorId!!)
                     vm.getQueue(appointmentId,it.doctorId)
                 }
+            }
+
+            diagnosisViewModel.error.observe(this){
+                Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
             }
         }
         setContentView(binding.root)

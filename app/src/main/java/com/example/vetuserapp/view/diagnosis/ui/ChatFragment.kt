@@ -17,17 +17,20 @@ class ChatFragment : Fragment() {
     private lateinit var binding : FragmentChatBinding
     private lateinit var diagnosisViewModel: DiagnosisViewModel
     private lateinit var adapter : ChatAdapter
-    val currentDate = Date()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentChatBinding.inflate(inflater,container,false)
         diagnosisViewModel = ViewModelProvider(requireActivity()).get(DiagnosisViewModel::class.java)
-        binding.rvChat.layoutManager = LinearLayoutManager(requireActivity())
+        val rvLayout = LinearLayoutManager(requireActivity())
+        rvLayout.reverseLayout = true
+        binding.rvChat.layoutManager = rvLayout
+
         diagnosisViewModel.chatData.observe(requireActivity()){
-            adapter = ChatAdapter(it)
+            adapter = ChatAdapter(it.sortedBy { it.timestamp }.reversed())
             binding.rvChat.adapter = adapter
+
         }
 
         diagnosisViewModel.user.observe(requireActivity()){user->
@@ -40,7 +43,7 @@ class ChatFragment : Fragment() {
                     binding.textSend.text.toString(),
                     null,
                     null,
-                    currentDate.time
+                    Date().time
                     )
                 diagnosisViewModel.sendChat(chat)
             }

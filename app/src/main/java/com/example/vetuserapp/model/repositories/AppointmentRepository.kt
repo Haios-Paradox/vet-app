@@ -1,15 +1,13 @@
 package com.example.vetuserapp.model.repositories
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.example.vetuserapp.model.data.Appointment
 import com.example.vetuserapp.model.data.Doctor
 import com.example.vetuserapp.model.data.User
 import com.example.vetuserapp.model.util.References
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
@@ -39,25 +37,29 @@ object AppointmentRepository {
         }
     }
 
-    //TODO: 02 06 2023, IMPLEMENT THE SHOWING QUEUE AT CHECKUP SCREEN
-
     suspend fun getUserQueue(appointmentId: String, doctorId: String): Result<Int> {
+        Log.e("AppointmentRepo", "getUserQueue")
         try{
             val docDoctor = doctorRef.document(doctorId).get().await()
             val doctor = docDoctor.toObject<Doctor>()
             val appointments = appointRef.whereIn("id",doctor?.queue!!).get().await()
             val sortedAppointments = appointments.toObjects<Appointment>().sortedBy { it.timestamp }
-            var result : Int?=0
-            for ((index, appointment) in sortedAppointments.withIndex()) {
-                if (appointment.id == appointmentId) {
-                    result = index + 1
-                }
-                else return Result.failure(Exception("Nyoooo"))
-            }
-            return Result.success(result!!)
+            val result = getQueueNumber(sortedAppointments,appointmentId)
+            return Result.success(result)
         }catch (e:Exception){
             return Result.failure(e)
         }
+    }
+
+    fun getQueueNumber(appointments: List<Appointment>, appointmentId: String) : Int {
+        // find the appointment corresponding to the id
+        val chosenAppointment = appointments.firstOrNull {it.id == appointmentId}
+            ?: return -1
+
+        // filter only appointments that come before the chosen one
+        val previousAppointments = appointments.filter { it.timestamp != null && it.timestamp <= chosenAppointment.timestamp!! }
+
+        return previousAppointments.size
     }
 
     suspend fun getAllUserAppointmentsHistory(
@@ -104,6 +106,9 @@ object AppointmentRepository {
             appointment.id = result.id
             appointment.photo = avatarLink
             appointRef.document(appointment.id!!).set(appointment).await()
+            doctorRef.document(doctorId).update(
+                "queue", FieldValue.arrayUnion(appointment.id)
+            ).await()
             Result.success(result)
         }catch (e:Exception){
             Result.failure(e)

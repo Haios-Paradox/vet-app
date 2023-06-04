@@ -1,6 +1,7 @@
 package com.example.vetuserapp.view.doctors.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.vetuserapp.controller.doctors.DoctorsViewModel
@@ -21,6 +22,10 @@ class DoctorsActivity : AppCompatActivity() {
             doctorsViewModel.getDoctors(specialist)
         else
             doctorsViewModel.getDoctors()
+
+        doctorsViewModel.error.observe(this){
+            Toast.makeText(this,it.cause?.message?:"There was an error",Toast.LENGTH_SHORT).show()
+        }
     }
 
     companion object{

@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.vetuserapp.controller.doctors.DoctorsViewModel
 import com.example.vetuserapp.databinding.FragmentDoctorAppointmentBinding
 import com.example.vetuserapp.view.diagnosis.ui.DiagnosisActivity
@@ -40,6 +41,12 @@ class DoctorAppointmentFragment : Fragment() {
                     .putExtra(DiagnosisActivity.APPOINTMENT, it.id)
             )
         }
+
+        doctorsViewModel.imageBitmap.observe(requireActivity()){
+            if(it!=null)
+                Glide.with(binding.ivPetImage).load(it).into(binding.ivPetImage)
+        }
+
         binding.btnBook.setOnClickListener {
             bookAppointment()
         }

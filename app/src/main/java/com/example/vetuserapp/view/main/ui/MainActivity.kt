@@ -1,6 +1,7 @@
 package com.example.vetuserapp.view.main.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -18,6 +19,9 @@ class MainActivity : AppCompatActivity() {
 
         homeViewModel = ViewModelProvider(this).get(
             HomeViewModel::class.java)
+        homeViewModel.error.observe(this){
+            Toast.makeText(this,it.message, Toast.LENGTH_SHORT).show()
+        }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){

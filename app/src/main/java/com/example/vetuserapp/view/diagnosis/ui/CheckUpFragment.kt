@@ -24,6 +24,11 @@ class CheckUpFragment : Fragment() {
             binding.tvCheckDoctorName.text = it.name
             binding.tvCheckDoctorSpecialty.text = it.specialist
         }
+        diagnosisViewModel.appointment.observe(requireActivity()){
+            if(it.id!=null && it.doctorId!=null) {
+                diagnosisViewModel.getQueue(it.id!!, it.doctorId)
+            }
+        }
 
         diagnosisViewModel.queue.observe(requireActivity()){
             binding.tvQueueBigNumber.text = it.toString()

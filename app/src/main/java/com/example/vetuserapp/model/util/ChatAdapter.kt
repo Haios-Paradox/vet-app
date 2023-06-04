@@ -3,6 +3,7 @@ package com.example.vetuserapp.model.util
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.vetuserapp.databinding.ItemChatRowBinding
 import com.example.vetuserapp.model.data.Chat
 
@@ -25,7 +26,8 @@ class ChatAdapter(private val messages: List<Chat>) :
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         with(holder){
             with(binding){
-                tvSenderName.text = messages[position].name
+                Glide.with(ivSender).load(messages[position].avatar).into(ivSender)
+                tvSenderName.text = messages[position].name + messages[position].timestamp.toString()
                 tvSenderContent.text = messages[position].message
             }
         }

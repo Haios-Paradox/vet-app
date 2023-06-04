@@ -1,5 +1,6 @@
 package com.example.vetuserapp.view.main.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.vetuserapp.controller.main.HomeViewModel
 import com.example.vetuserapp.databinding.FragmentHistoryBinding
 import com.example.vetuserapp.model.data.Appointment
 import com.example.vetuserapp.model.util.AppointmentAdapter
+import com.example.vetuserapp.view.diagnosis.ui.DiagnosisActivity
 
 class HistoryFragment : Fragment() {
     private lateinit var binding : FragmentHistoryBinding
@@ -27,6 +29,15 @@ class HistoryFragment : Fragment() {
         homeViewModel.appointmentList.observe(requireActivity()){
             val appointments = it
             adapter = AppointmentAdapter(appointments as List<Appointment>)
+            adapter.setOnItemClickCallback(object : AppointmentAdapter.OnItemClickCallback {
+                override fun onItemClicked(data: Appointment) {
+                    startActivity(
+                        Intent(requireActivity(), DiagnosisActivity::class.java)
+                            .putExtra(DiagnosisActivity.APPOINTMENT, data.id)
+                    )
+                }
+
+            })
             binding.rvHistory.adapter = adapter
         }
 

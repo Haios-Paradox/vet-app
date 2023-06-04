@@ -2,6 +2,7 @@ package com.example.vetuserapp.view.auth.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -19,6 +20,9 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
 
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+        authViewModel.error.observe(this){
+            Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
+        }
 
         authViewModel.loggedInUser.observe(this){
             if(it==null)

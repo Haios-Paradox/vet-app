@@ -34,6 +34,8 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
 
     init{
         loadChats(appointmentId)
+        loadAppointment()
+        getUser()
     }
 
     fun getUser(){
@@ -56,12 +58,13 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
         }
     }
 
-    fun loadAppointment(doctorId:String){
+    fun loadAppointment(){
         viewModelScope.launch {
             try{
-                val appointment = AppointmentRepository.getAppointment(appointmentId).getOrThrow()
-                val numQueue = AppointmentRepository.getUserQueue(appointmentId,doctorId).getOrThrow()
-                _appointment.value = appointment.toObject()
+                val docAppointment = AppointmentRepository.getAppointment(appointmentId).getOrThrow()
+                val appointment = docAppointment.toObject<Appointment>()
+                val numQueue = AppointmentRepository.getUserQueue(appointmentId,appointment!!.doctorId!!).getOrThrow()
+                _appointment.value = appointment!!
                 _queue.value = numQueue
             }catch (e:Exception){
                 _error.value = e
@@ -72,7 +75,8 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
 
     fun loadChats(appointmentId: String) {
         ChatRepository.getMessages(appointmentId) {
-            _chatData.value = it
+            val sortedChat = it.sortedBy { it.timestamp }.asReversed()
+            _chatData.value = sortedChat
         }
     }
 
