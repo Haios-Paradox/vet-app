@@ -26,7 +26,6 @@ object AppointmentRepository {
     val doctorRef = db.collection(References.DOCTOR_COL)
     private val storage = Firebase.storage
     private val storageRef = storage.reference
-    val currentDate = Date()
 
     suspend fun getAppointment(id:String):Result<DocumentSnapshot>{
         return try{
@@ -98,7 +97,8 @@ object AppointmentRepository {
                 null,
                 desc,
                 null,
-                currentDate.time,
+                null,
+                Date().time,
                 false
             )
             val result = appointRef.add(appointment).await()
@@ -118,7 +118,7 @@ object AppointmentRepository {
 
     private suspend fun sendImage(image: Bitmap, appointmentId: String): String {
         val uid = auth.uid ?: throw (Exception("User Not Logged In"))
-        val time = currentDate.time.toString()
+        val time = Date().time.toString()
         return uploadImage(image,"$uid$time",appointmentId)
     }
 

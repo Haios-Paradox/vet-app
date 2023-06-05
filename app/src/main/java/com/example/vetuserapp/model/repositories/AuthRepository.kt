@@ -33,6 +33,7 @@ object AuthRepository {
     ){
         auth.createUserWithEmailAndPassword(email,password)
             .addOnSuccessListener{newUser->
+                user.id = newUser.user?.uid
                 db.collection(References.USER_COL).document(newUser.user!!.uid)
                     .set(user)
                     .addOnSuccessListener{

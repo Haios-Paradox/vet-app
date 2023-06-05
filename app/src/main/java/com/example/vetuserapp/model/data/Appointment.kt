@@ -8,7 +8,8 @@ data class Appointment(
     val doctorName:String?=null,
     var photo : String?=null,
     val description: String?=null,
-    val prescription: Prescription?=null,
+    val analysis:String?=null,
+    val treatment:String?=null,
     val timestamp : Long?=null,
     val complete : Boolean?=false,
     val paid : Boolean?=false

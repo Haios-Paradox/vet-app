@@ -19,9 +19,9 @@ class PrescriptionFragment : Fragment() {
         binding = FragmentPrescriptionBinding.inflate(inflater,container,false)
         diagnosisViewModel = ViewModelProvider(requireActivity())[DiagnosisViewModel::class.java]
 
-        diagnosisViewModel.prescription.observe(requireActivity()){
+        diagnosisViewModel.appointment.observe(requireActivity()){
             binding.tvAnalysis.text = it.analysis
-            binding.tvDoctorNamePrescription.text = it.name
+            binding.tvDoctorNamePrescription.text = it.doctorName
             binding.tvTreatment.text = it.treatment
         }
 

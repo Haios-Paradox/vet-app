@@ -47,6 +47,7 @@ class ProfileFragment : Fragment() {
             binding.edProfileDob.setText(userData?.dob?.toString()?:"N/A")
             binding.edHomePhone.setText(userData?.phone?:"N/A")
             binding.edProfileDesc.setText(userData?.desc?:"N/A")
+            setupFab(userData?.id!!)
         }
         binding.imageView2.setOnClickListener {
             dispatchTakePictureIntent()
@@ -57,8 +58,16 @@ class ProfileFragment : Fragment() {
                 Glide.with(binding.imageView2).load(it).into(binding.imageView2)
         }
 
+
+
+
+        return binding.root
+    }
+
+    fun setupFab(userId: String){
         binding.fabEditProfile.setOnClickListener {
             val user =  User(
+                userId,
                 binding.edProfileName.text.toString(),
                 binding.edProfileEmail.text.toString(),
                 binding.edHomePhone.text.toString(),
@@ -71,7 +80,6 @@ class ProfileFragment : Fragment() {
             else
                 homeViewModel.updateUserData(user)
         }
-        return binding.root
     }
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

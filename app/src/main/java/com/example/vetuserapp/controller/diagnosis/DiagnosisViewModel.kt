@@ -1,7 +1,10 @@
 package com.example.vetuserapp.controller.diagnosis
 
 import androidx.lifecycle.*
-import com.example.vetuserapp.model.data.*
+import com.example.vetuserapp.model.data.Appointment
+import com.example.vetuserapp.model.data.Chat
+import com.example.vetuserapp.model.data.Doctor
+import com.example.vetuserapp.model.data.User
 import com.example.vetuserapp.model.repositories.AppointmentRepository
 import com.example.vetuserapp.model.repositories.ChatRepository
 import com.example.vetuserapp.model.repositories.DoctorRepository
@@ -22,9 +25,6 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
 
     private val _doctorData = MutableLiveData<Doctor>()
     val doctorData:LiveData<Doctor> = _doctorData
-
-    private val _prescription = MutableLiveData<Prescription>()
-    val prescription: LiveData<Prescription> = _prescription
 
     private val _appointment = MutableLiveData<Appointment>()
     val appointment: LiveData<Appointment> = _appointment
