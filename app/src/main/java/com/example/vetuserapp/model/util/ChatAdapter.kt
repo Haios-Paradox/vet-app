@@ -29,6 +29,8 @@ class ChatAdapter(private val messages: List<Chat>) :
                 Glide.with(ivSender).load(messages[position].avatar).circleCrop().centerCrop().into(ivSender)
                 tvSenderName.text = messages[position].name
                 tvSenderContent.text = messages[position].message
+                if(messages[position].content!=null)
+                    Glide.with(ivAttachmentSent).load(messages[position].content).into(ivAttachmentSent)
             }
         }
     }

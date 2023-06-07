@@ -1,5 +1,7 @@
 package com.example.vetuserapp.controller.diagnosis
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.lifecycle.*
 import com.example.vetuserapp.model.data.Appointment
 import com.example.vetuserapp.model.data.Chat
@@ -12,6 +14,7 @@ import com.example.vetuserapp.model.repositories.UserRepository
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     private val _error = MutableLiveData<Exception>()
@@ -31,6 +34,9 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
 
     private val _queue = MutableLiveData<Int>()
     val queue: LiveData<Int> = _queue
+
+    private val _imageBitmap = MutableLiveData<Bitmap?>()
+    val imageBitmap: LiveData<Bitmap?> = _imageBitmap
 
     init{
         loadChats(appointmentId)
@@ -83,7 +89,11 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     fun sendChat(message: Chat){
         viewModelScope.launch {
             try {
-                ChatRepository.sendMessage(appointmentId,message)
+                if(imageBitmap.value==null)
+                    ChatRepository.sendMessage(appointmentId,message)
+                else
+                    ChatRepository.sendMessage(appointmentId,message, imageBitmap.value!!)
+                _imageBitmap.value = null
             }catch (e: FirebaseFirestoreException) {
                 _error.value = e
             }
@@ -97,11 +107,16 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
             }catch (e:Exception){
                 _error.value = e
             }
-
         }
-
     }
 
+    fun storeImage(bitmap: Bitmap, quality: Int) {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+        val compressedBitmap =
+            BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.size())
+        _imageBitmap.value = compressedBitmap
+    }
 }
 
 class ViewModelFactory(private val appointmentId: String) : ViewModelProvider.Factory {

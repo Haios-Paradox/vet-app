@@ -80,17 +80,6 @@
             app:layout_constraintStart_toStartOf="@+id/tvCheckDoctorName"
             app:layout_constraintTop_toBottomOf="@+id/tvCheckDoctorName" />
 
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Please Complete the Payment"
-            app:layout_constraintEnd_toEndOf="@+id/btnStartCheck"
-            app:layout_constraintHorizontal_bias="0.48"
-            app:layout_constraintStart_toStartOf="@+id/btnStartCheck"
-            app:layout_constraintTop_toBottomOf="@+id/btnPrescription" />
-
         <Button
             android:id="@+id/btnPrescription"
             android:layout_width="wrap_content"
