@@ -34,6 +34,18 @@ object AppointmentRepository {
             Result.failure(e)
         }
     }
+    fun getAppointment(id:String,onUpdate: (DocumentSnapshot) -> Unit):Result<ListenerRegistration>{
+        return try{
+            val result = appointRef.document(id).addSnapshotListener{value,error ->
+                if (value != null) {
+                    onUpdate(value)
+                }
+            }
+            Result.success(result)
+        }catch (e:Exception){
+            Result.failure(e)
+        }
+    }
 
     suspend fun getUserQueue(appointmentId: String, doctorId: String): Result<Int> {
         Log.e("AppointmentRepo", "getUserQueue")

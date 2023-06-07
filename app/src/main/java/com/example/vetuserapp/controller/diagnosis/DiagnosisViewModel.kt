@@ -64,19 +64,37 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
         }
     }
 
+    //TODO: Make the queue thingy realtime.
+    //TODO: 1. Make a listener for appointment document
+    //TODO: 2. Use that to show the Queue
+//    fun loadAppointment(){
+//        viewModelScope.launch {
+//            try{
+//                val docAppointment = AppointmentRepository.getAppointment(appointmentId).getOrThrow()
+//                val appointment = docAppointment.toObject<Appointment>()
+//                val numQueue = AppointmentRepository.getUserQueue(appointmentId,appointment!!.doctorId!!).getOrThrow()
+//                _appointment.value = appointment!!
+//                _queue.value = numQueue
+//            }catch (e:Exception){
+//                _error.value = e
+//            }
+//        }
+//    }
+
     fun loadAppointment(){
-        viewModelScope.launch {
+        viewModelScope.launch{
             try{
-                val docAppointment = AppointmentRepository.getAppointment(appointmentId).getOrThrow()
-                val appointment = docAppointment.toObject<Appointment>()
-                val numQueue = AppointmentRepository.getUserQueue(appointmentId,appointment!!.doctorId!!).getOrThrow()
-                _appointment.value = appointment!!
-                _queue.value = numQueue
+                val regis = AppointmentRepository.getAppointment(
+                    appointmentId,
+                    onUpdate = {
+                        _appointment.value = it.toObject()
+                        getQueue(appointmentId,appointment.value!!.doctorId!!)
+                    }
+                )
             }catch (e:Exception){
                 _error.value = e
             }
         }
-
     }
 
     fun loadChats(appointmentId: String) {
@@ -103,7 +121,8 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     fun getQueue(appointmentId: String, doctorId:String){
         viewModelScope.launch {
             try{
-                AppointmentRepository.getUserQueue(appointmentId, doctorId)
+                val result = AppointmentRepository.getUserQueue(appointmentId, doctorId).getOrThrow()
+                _queue.value = result
             }catch (e:Exception){
                 _error.value = e
             }
