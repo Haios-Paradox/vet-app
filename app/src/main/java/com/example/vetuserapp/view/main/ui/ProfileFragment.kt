@@ -46,12 +46,12 @@ class ProfileFragment : Fragment() {
             val userData = it.toObject<User>()
             if(userData?.avatar?.isNotEmpty() == true)
                 Glide.with(binding.imageView2).load(userData.avatar).into(binding.imageView2)
-            binding.tvProfileName.text = (userData?.name?:"N/A")
-            binding.edProfileName.setText(userData?.name?:"N/A")
-            binding.edProfileEmail.setText(userData?.email?:"N/A")
-            binding.edProfileDob.setText(userData?.dob?.toString()?:"N/A")
-            binding.edHomePhone.setText(userData?.phone?:"N/A")
-            binding.edProfileDesc.setText(userData?.desc?:"N/A")
+            binding.tvProfileName.text = (userData?.name?:"")
+            binding.edProfileName.setText(userData?.name?:"")
+            binding.edProfileEmail.setText(userData?.email?:"")
+            binding.edProfileDob.setText(userData?.dob?.toString()?:"")
+            binding.edHomePhone.setText(userData?.phone?:"")
+            binding.edProfileDesc.setText(userData?.desc?:"")
             setupFab(userData?.id!!)
         }
         binding.imageView2.setOnClickListener {
