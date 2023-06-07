@@ -4,6 +4,7 @@ import com.example.vetuserapp.model.util.References
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -37,10 +38,15 @@ object DoctorRepository {
 
     }
 
-    suspend fun getDoctors(specialist:String): Result<QuerySnapshot?> {
+    fun getDoctors(
+        specialist:String,
+        onDoctorsChanged: (QuerySnapshot?) -> Unit
+    ): Result<ListenerRegistration?> {
         return try {
-            val snapshot = doctorRef.whereEqualTo("specialist",specialist).get().await()
-            Result.success(snapshot)
+            val regis = doctorRef.whereEqualTo("specialist",specialist).addSnapshotListener { value, error ->
+                onDoctorsChanged(value)
+            }
+            Result.success(regis)
         } catch (e: Exception) {
             Result.failure(e)
         }

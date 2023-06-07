@@ -58,7 +58,12 @@ class DoctorsViewModel: ViewModel(){
     fun getDoctors(specialty:String){
         viewModelScope.launch {
             try{
-                _doctorList.value = DoctorRepository.getDoctors(specialty).getOrThrow()?.documents
+                DoctorRepository.getDoctors(
+                    specialty,
+                    onDoctorsChanged = {
+                        _doctorList.value = it?.documents
+                    }
+                )
             }catch (e:Exception){
                 _error.value = e
             }

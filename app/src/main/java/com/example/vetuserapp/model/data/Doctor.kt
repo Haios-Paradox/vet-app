@@ -13,4 +13,5 @@ data class Doctor(
     var limit: Int?=0,
     var available : Boolean?=false,
     val queue: List<String>?= emptyList(),
+    val finished_queue: List<String>?= emptyList()
 )

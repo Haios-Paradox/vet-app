@@ -49,7 +49,7 @@ class ProfileFragment : Fragment() {
             binding.tvProfileName.text = (userData?.name?:"")
             binding.edProfileName.setText(userData?.name?:"")
             binding.edProfileEmail.setText(userData?.email?:"")
-            binding.edProfileDob.setText(userData?.dob?.toString()?:"")
+            binding.edProfileDob.setText(userData?.dob?:"")
             binding.edHomePhone.setText(userData?.phone?:"")
             binding.edProfileDesc.setText(userData?.desc?:"")
             setupFab(userData?.id!!)

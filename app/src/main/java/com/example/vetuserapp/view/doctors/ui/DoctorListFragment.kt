@@ -30,8 +30,8 @@ class DoctorListFragment : Fragment() {
         doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java]
         doctorsViewModel.doctorList.observe(requireActivity()){data ->
             val doctors = data.map{it.toObject<Doctor>()}
-            doctors.filter { it?.queue?.size!! < it.limit!! && it.available == true }
-            adapter = DoctorAdapter(doctors as List<Doctor>)
+            val filtered = doctors.filter { it?.queue?.size!! + it.finished_queue?.size!! < it.limit!! && it.available == true }
+            adapter = DoctorAdapter(filtered as List<Doctor>)
             adapter.setOnItemClickCallback(object : DoctorAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: Doctor) {
                     doctorsViewModel.selectedDoctor = data
