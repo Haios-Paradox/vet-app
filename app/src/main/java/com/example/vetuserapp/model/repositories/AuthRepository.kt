@@ -47,4 +47,8 @@ object AuthRepository {
                 onResult(null,it)
             }
     }
+
+    fun logout() {
+        auth.signOut()
+    }
 }

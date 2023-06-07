@@ -34,7 +34,7 @@ class DoctorsViewModel: ViewModel(){
     private val _imageBitmap = MutableLiveData<Bitmap?>()
     val imageBitmap: LiveData<Bitmap?> = _imageBitmap
 
-    var selectedDoctor:DocumentSnapshot?=null
+    var selectedDoctor:Doctor?=null
 
     fun storeImage(bitmap: Bitmap, quality: Int) {
         val outputStream = ByteArrayOutputStream()
@@ -66,13 +66,14 @@ class DoctorsViewModel: ViewModel(){
 
     }
 
-    fun createAppointment(desc:String){
+    fun createAppointment(petname:String, desc:String){
         viewModelScope.launch {
             try{
                 val userDoc = UserRepository.getUserData().getOrThrow()
                 val userData = userDoc?.toObject<User>()
-                val doctorData = selectedDoctor?.toObject<Doctor>()
-                _newAppointment.value = AppointmentRepository.createAppointment(userData!!,doctorData!!,selectedDoctor!!.id,imageBitmap.value!!,desc).getOrThrow()
+                val doctorData = selectedDoctor
+                _newAppointment.value = AppointmentRepository.createAppointment(doctorData!!,selectedDoctor!!.id!!,imageBitmap.value!!,desc, petname).getOrThrow()
+                _imageBitmap.value = null
             }
             catch (e:Exception){
                 _error.value = e

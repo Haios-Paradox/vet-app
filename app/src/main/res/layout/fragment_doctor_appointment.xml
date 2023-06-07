@@ -21,7 +21,8 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+            android:src="@drawable/baseline_add_a_photo_24"
+            android:background="@color/browser_actions_bg_grey"/>
 
         <EditText
             android:id="@+id/edAppoName"
@@ -30,6 +31,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
+            android:hint="Your Pet's Name"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -51,34 +53,6 @@
             app:layout_constraintTop_toTopOf="@+id/edAppoName"
             app:layout_constraintVertical_bias="0.0" />
 
-        <EditText
-            android:id="@+id/edAppoEmail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:inputType="textPersonName|textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/edAppoName" />
-
-        <TextView
-            android:id="@+id/tvAppoEmail"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:gravity="center_vertical"
-            android:text="Email"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/edAppoEmail"
-            app:layout_constraintEnd_toStartOf="@id/guideline3"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/edAppoEmail"
-            app:layout_constraintVertical_bias="1.0" />
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
             android:layout_width="wrap_content"
@@ -95,6 +69,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:gravity="start|top"
+            android:hint="Write down what happened to your pet, what odd behavior you notice, and what seems to be the problem."
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -105,11 +80,11 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:text="Problem"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/edAppoDescription"
-            app:layout_constraintTop_toBottomOf="@+id/edAppoEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/tvAppoName" />
 
         <Button
             android:id="@+id/btnBook"

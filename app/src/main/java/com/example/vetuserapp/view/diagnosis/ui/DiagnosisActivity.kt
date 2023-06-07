@@ -20,12 +20,11 @@ class DiagnosisActivity : AppCompatActivity() {
             diagnosisViewModel = ViewModelProvider(this,ViewModelFactory(appointmentId))[DiagnosisViewModel::class.java].also { vm->
                 vm.appointment.observe(this){
                     vm.getDoctor(it.doctorId!!)
-                    vm.getQueue(appointmentId,it.doctorId)
                 }
             }
 
             diagnosisViewModel.error.observe(this){
-                Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,it.cause?.message?:"There was an error",Toast.LENGTH_SHORT).show()
             }
         }
         setContentView(binding.root)

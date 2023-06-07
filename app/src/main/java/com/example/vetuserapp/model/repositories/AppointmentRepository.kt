@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.util.Log
 import com.example.vetuserapp.model.data.Appointment
 import com.example.vetuserapp.model.data.Doctor
-import com.example.vetuserapp.model.data.User
 import com.example.vetuserapp.model.util.References
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
@@ -85,13 +84,13 @@ object AppointmentRepository {
     }
 
     suspend fun createAppointment(
-        user: User, doctor: Doctor, doctorId: String, image:Bitmap, desc:String
+        doctor: Doctor, doctorId: String, image:Bitmap, desc:String, petName:String
     ): Result<DocumentReference> {
         return try{
             val appointment = Appointment(
                 null,
                 auth.uid,
-                user.name,
+                petName,
                 doctorId,
                 doctor.name,
                 null,
@@ -99,7 +98,7 @@ object AppointmentRepository {
                 null,
                 null,
                 Date().time,
-                false
+                false,
             )
             val result = appointRef.add(appointment).await()
             val avatarLink = sendImage(image,result.id)

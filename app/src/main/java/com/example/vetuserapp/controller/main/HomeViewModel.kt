@@ -10,6 +10,7 @@ import com.example.vetuserapp.model.data.Appointment
 import com.example.vetuserapp.model.data.Specialist
 import com.example.vetuserapp.model.data.User
 import com.example.vetuserapp.model.repositories.AppointmentRepository
+import com.example.vetuserapp.model.repositories.AuthRepository
 import com.example.vetuserapp.model.repositories.DoctorRepository
 import com.example.vetuserapp.model.repositories.UserRepository
 import com.google.firebase.firestore.DocumentSnapshot
@@ -88,6 +89,7 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch {
             try{
                 UserRepository.createOrUpdateUserData(user,file)
+                getUserData()
             }catch (e:Exception){
                 _error.value = e
             }
@@ -105,6 +107,10 @@ class HomeViewModel : ViewModel() {
             }
         }
 
+    }
+
+    fun logout() {
+        AuthRepository.logout()
     }
 
 }

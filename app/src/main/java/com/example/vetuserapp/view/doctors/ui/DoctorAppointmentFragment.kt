@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -57,10 +58,13 @@ class DoctorAppointmentFragment : Fragment() {
     }
 
     private fun bookAppointment() {
-        doctorsViewModel.createAppointment(
-            binding.edAppoDescription.text.toString()
-        )
-
+        if(doctorsViewModel.imageBitmap.value==null)
+            Toast.makeText(requireActivity(),"Please Insert A Photo Of Your Pet", Toast.LENGTH_LONG).show()
+        else
+            doctorsViewModel.createAppointment(
+                binding.edAppoName.text.toString(),
+                binding.edAppoDescription.text.toString()
+            )
     }
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

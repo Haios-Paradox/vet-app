@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="#FFFFFF"
     tools:context=".view.main.ui.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,6 +34,7 @@
             android:layout_marginEnd="8dp"
             android:autofillHints="Email"
             android:ems="10"
+            android:hint="johndoe@mail.com"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -47,6 +49,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
+            android:hint="088888888"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -58,14 +61,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:gravity="start"
+            android:hint="Tell A Little Bit About Yourself"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:singleLine="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/edProfileDob" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProfileDescription" />
 
         <EditText
             android:id="@+id/edProfileDob"
@@ -73,11 +79,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            android:hint="dd/mm/yyyy"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="@+id/edHomePhone"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/edHomePhone" />
 
@@ -112,16 +117,16 @@
         <TextView
             android:id="@+id/tvProfileDescription"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
             android:gravity="center_vertical"
-            android:text="Description"
+            android:text="About"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/edProfileDesc"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/edProfileDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/tvProfileDob" />
 
         <TextView
             android:id="@+id/tvProfileDob"
@@ -146,7 +151,8 @@
             android:src="@drawable/ic_profile"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_add_a_photo_24" />
 
         <TextView
             android:id="@+id/tvProfileName"
@@ -161,19 +167,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="@+id/imageView2" />
-
-        <TextView
-            android:id="@+id/tvProfileSpecialty"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Undefined"
-            android:textAlignment="textEnd"
-            android:textSize="20sp"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="@+id/tvProfileName"
-            app:layout_constraintStart_toStartOf="@+id/tvProfileName"
-            app:layout_constraintTop_toBottomOf="@+id/tvProfileName" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -190,6 +183,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
+            android:hint="John Doe"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

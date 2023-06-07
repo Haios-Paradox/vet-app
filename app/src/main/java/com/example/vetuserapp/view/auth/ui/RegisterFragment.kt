@@ -33,7 +33,7 @@ class RegisterFragment : Fragment() {
             if(email.isNotEmpty() && pass.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty())
                 authViewModel.register(
                     email,pass,
-                    User(name,email,phone)
+                    User("",name,email,phone)
                 )
             else
                 Toast.makeText(requireActivity(),"Please Fill In All Fields", Toast.LENGTH_SHORT).show()

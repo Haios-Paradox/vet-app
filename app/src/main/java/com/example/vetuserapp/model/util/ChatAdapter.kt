@@ -26,8 +26,8 @@ class ChatAdapter(private val messages: List<Chat>) :
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         with(holder){
             with(binding){
-                Glide.with(ivSender).load(messages[position].avatar).into(ivSender)
-                tvSenderName.text = messages[position].name + messages[position].timestamp.toString()
+                Glide.with(ivSender).load(messages[position].avatar).circleCrop().centerCrop().into(ivSender)
+                tvSenderName.text = messages[position].name
                 tvSenderContent.text = messages[position].message
             }
         }

@@ -33,6 +33,11 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(storagePermission,mediaPermission,cameraPermission),
+            4
+        )
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater,container,false)
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
@@ -58,13 +63,10 @@ class ProfileFragment : Fragment() {
                 Glide.with(binding.imageView2).load(it).into(binding.imageView2)
         }
 
-
-
-
         return binding.root
     }
 
-    fun setupFab(userId: String){
+    private fun setupFab(userId: String){
         binding.fabEditProfile.setOnClickListener {
             val user =  User(
                 userId,
@@ -74,6 +76,7 @@ class ProfileFragment : Fragment() {
                 avatar = homeViewModel.userData.value?.toObject<User>()?.avatar,
                 "",
                 binding.edProfileDesc.text.toString(),
+                binding.edProfileDob.text.toString()
             )
             if(homeViewModel.imageBitmap.value!=null)
                 homeViewModel.updateUserData(user, homeViewModel.imageBitmap.value!!)
@@ -98,7 +101,7 @@ class ProfileFragment : Fragment() {
         homeViewModel.storeImage(imageBitmap, 100)
     }
 
-    fun dispatchTakePictureIntent() {
+    private fun dispatchTakePictureIntent() {
         val pickImage = "Pick Image"
         val takePhoto = "Take Photo"
 

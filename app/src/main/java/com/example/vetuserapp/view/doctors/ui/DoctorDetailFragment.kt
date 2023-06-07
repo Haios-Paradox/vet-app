@@ -11,7 +11,6 @@ import com.example.vetuserapp.R
 import com.example.vetuserapp.controller.doctors.DoctorsViewModel
 import com.example.vetuserapp.databinding.FragmentDoctorDetailBinding
 import com.example.vetuserapp.model.data.Doctor
-import com.google.firebase.firestore.ktx.toObject
 
 class DoctorDetailFragment : Fragment() {
 
@@ -25,7 +24,7 @@ class DoctorDetailFragment : Fragment() {
         binding = FragmentDoctorDetailBinding.inflate(layoutInflater,container, false)
         doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java]
         val selection = doctorsViewModel.selectedDoctor
-        val doctor = selection?.toObject<Doctor>()
+        val doctor = selection
         if(doctor!=null) setupView(doctor)
 
         return binding.root

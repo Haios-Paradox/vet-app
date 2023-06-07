@@ -6,10 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.vetuserapp.databinding.ItemDoctorRowBinding
 import com.example.vetuserapp.model.data.Doctor
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.toObject
 
-class DoctorAdapter(private val doctors: List<DocumentSnapshot>): RecyclerView.Adapter<ViewHolderDoctor>() {
+class DoctorAdapter(private val doctors: List<Doctor>): RecyclerView.Adapter<ViewHolderDoctor>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -19,7 +17,7 @@ class DoctorAdapter(private val doctors: List<DocumentSnapshot>): RecyclerView.A
 
 
     interface OnItemClickCallback{
-        fun onItemClicked(data: DocumentSnapshot)
+        fun onItemClicked(data: Doctor)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDoctor {
         val binding = ItemDoctorRowBinding.inflate(
@@ -34,15 +32,15 @@ class DoctorAdapter(private val doctors: List<DocumentSnapshot>): RecyclerView.A
     override fun onBindViewHolder(holder: ViewHolderDoctor, position: Int) {
         with(holder){
             with(binding){
-                val doctor = doctors[position].toObject<Doctor>()
-                tvDoctorName.text = doctor?.name
-                tvDoctorSpecialist.text =doctor?.specialist
+                val doctor = doctors[position]
+                tvDoctorName.text = doctor.name
+                tvDoctorSpecialist.text =doctor.specialist
                 Glide.with(ivRowDoctorImage)
-                    .load(doctor?.avatar)
+                    .load(doctor.avatar)
                     .into(ivRowDoctorImage)
-                tvItemQueue.text = (doctor?.queue?.size?:0).toString()
+                tvItemQueue.text = (doctor.queue?.size?:0).toString()
                 binding.root.setOnClickListener {
-                    onItemClickCallback.onItemClicked(doctors[position])
+                    onItemClickCallback.onItemClicked(doctor)
                 }
             }
         }
