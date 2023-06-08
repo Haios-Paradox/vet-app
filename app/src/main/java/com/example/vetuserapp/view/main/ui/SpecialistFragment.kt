@@ -31,7 +31,14 @@ class SpecialistFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentSpecialistBinding.inflate(inflater,container,false)
         binding.rvSpecialist.layoutManager = GridLayoutManager(requireActivity(),2)
-        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java).also {
+            it.loading.observe(requireActivity()) {
+                if (it)
+                    binding.progressBar9.visibility = View.GONE
+                else
+                    binding.progressBar9.visibility = View.VISIBLE
+            }
+        }
 
         homeViewModel.specialistList.observe(requireActivity()){data ->
             val specialist = data

@@ -22,7 +22,14 @@ class RegisterFragment : Fragment() {
     ): View? {
         binding = FragmentRegisterBinding.inflate(inflater,container,false)
 
-        authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
+        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java].also {
+            it.loading.observe(requireActivity()) {
+                if (it)
+                    binding.progressBar.visibility = View.GONE
+                else
+                    binding.progressBar.visibility = View.VISIBLE
+            }
+        }
 
         binding.buttonRegister.setOnClickListener {
             val email = binding.editTextRegisterEmail.text.toString()

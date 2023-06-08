@@ -20,8 +20,8 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
 
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
-        authViewModel.error.observe(this){
-            Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
+        authViewModel.message.observe(this){
+            Toast.makeText(this,it,Toast.LENGTH_SHORT).show()
         }
 
         authViewModel.loggedInUser.observe(this){

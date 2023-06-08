@@ -40,7 +40,14 @@ class ProfileFragment : Fragment() {
         )
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater,container,false)
-        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java).also {
+            it.loading.observe(requireActivity()) {
+                if (it)
+                    binding.progressBar8.visibility = View.GONE
+                else
+                    binding.progressBar8.visibility = View.VISIBLE
+            }
+        }
 
         homeViewModel.userData.observe(requireActivity()){
             val userData = it.toObject<User>()

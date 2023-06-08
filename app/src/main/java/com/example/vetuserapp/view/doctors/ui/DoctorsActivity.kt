@@ -23,8 +23,8 @@ class DoctorsActivity : AppCompatActivity() {
         else
             doctorsViewModel.getDoctors()
 
-        doctorsViewModel.error.observe(this){
-            Toast.makeText(this,it.cause?.message?:"There was an error",Toast.LENGTH_SHORT).show()
+        doctorsViewModel.message.observe(this){
+            Toast.makeText(this,it?:"There was an error",Toast.LENGTH_SHORT).show()
         }
     }
 

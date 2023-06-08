@@ -7,13 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vetuserapp.model.data.Doctor
-import com.example.vetuserapp.model.data.User
 import com.example.vetuserapp.model.repositories.AppointmentRepository
 import com.example.vetuserapp.model.repositories.DoctorRepository
-import com.example.vetuserapp.model.repositories.UserRepository
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
@@ -28,13 +25,15 @@ class DoctorsViewModel: ViewModel(){
     private val _doctorList = MutableLiveData<List<DocumentSnapshot>>()
     val doctorList: LiveData<List<DocumentSnapshot>> = _doctorList
 
-    private val _error = MutableLiveData<Exception>()
-    val error: LiveData<Exception> = _error
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
 
     private val _imageBitmap = MutableLiveData<Bitmap?>()
     val imageBitmap: LiveData<Bitmap?> = _imageBitmap
 
     var selectedDoctor:Doctor?=null
+
+    val loading = MutableLiveData<Boolean>()
 
     fun storeImage(bitmap: Bitmap, quality: Int) {
         val outputStream = ByteArrayOutputStream()
@@ -47,9 +46,12 @@ class DoctorsViewModel: ViewModel(){
     fun getDoctors() {
         viewModelScope.launch {
             try{
+                loading.value = true
                 _doctorList.value = DoctorRepository.getDoctors().getOrThrow()?.documents
+                loading.value = false
             }catch (e:Exception){
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
         }
     }
@@ -61,11 +63,14 @@ class DoctorsViewModel: ViewModel(){
                 DoctorRepository.getDoctors(
                     specialty,
                     onDoctorsChanged = {
+                        loading.value = true
                         _doctorList.value = it?.documents
+                        loading.value = false
                     }
                 )
             }catch (e:Exception){
-                _error.value = e
+                loading.value = false
+                _message.value = e.cause?.message?:e.message?:"There was an error"
             }
         }
 
@@ -74,14 +79,16 @@ class DoctorsViewModel: ViewModel(){
     fun createAppointment(petname:String, desc:String){
         viewModelScope.launch {
             try{
-                val userDoc = UserRepository.getUserData().getOrThrow()
-                val userData = userDoc?.toObject<User>()
+                loading.value = true
                 val doctorData = selectedDoctor
                 _newAppointment.value = AppointmentRepository.createAppointment(doctorData!!,selectedDoctor!!.id!!,imageBitmap.value!!,desc, petname).getOrThrow()
                 _imageBitmap.value = null
+                loading.value = false
+                _message.value = "Create Appointment Success"
             }
             catch (e:Exception){
-                _error.value = e
+                loading.value = false
+                _message.value = e.cause?.message?:e.message?:"There was an error"
             }
         }
 

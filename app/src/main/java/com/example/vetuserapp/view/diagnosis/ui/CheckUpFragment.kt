@@ -19,7 +19,14 @@ class CheckUpFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentCheckUpBinding.inflate(inflater,container,false)
-        diagnosisViewModel = ViewModelProvider(requireActivity()).get(DiagnosisViewModel::class.java)
+        diagnosisViewModel = ViewModelProvider(requireActivity()).get(DiagnosisViewModel::class.java).also {
+            it.loading.observe(requireActivity()) {
+                if (it)
+                    binding.progressBar2.visibility = View.GONE
+                else
+                    binding.progressBar2.visibility = View.VISIBLE
+            }
+        }
         diagnosisViewModel.doctorData.observe(requireActivity()){
             binding.tvCheckDoctorName.text = it.name
             binding.tvCheckDoctorSpecialty.text = it.specialist

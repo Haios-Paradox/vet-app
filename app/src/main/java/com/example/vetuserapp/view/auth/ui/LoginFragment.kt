@@ -22,7 +22,14 @@ class LoginFragment : Fragment() {
     ): View{
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater,container,false)
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
+        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java].also{
+            it.loading.observe(requireActivity()){
+                if(it)
+                    binding.progressBar.visibility = View.GONE
+                else
+                    binding.progressBar.visibility = View.VISIBLE
+            }
+        }
 
         binding.buttonLogin.setOnClickListener {
             val email = binding.editTextLoginEmail.text.toString()

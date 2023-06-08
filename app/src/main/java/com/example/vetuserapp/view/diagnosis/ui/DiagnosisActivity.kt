@@ -23,8 +23,8 @@ class DiagnosisActivity : AppCompatActivity() {
                 }
             }
 
-            diagnosisViewModel.error.observe(this){
-                Toast.makeText(this,it.cause?.message?:"There was an error",Toast.LENGTH_SHORT).show()
+            diagnosisViewModel.message.observe(this){
+                Toast.makeText(this,it?:"There was an error",Toast.LENGTH_SHORT).show()
             }
         }
         setContentView(binding.root)

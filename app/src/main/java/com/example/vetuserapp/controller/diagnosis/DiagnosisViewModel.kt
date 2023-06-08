@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
 class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
-    private val _error = MutableLiveData<Exception>()
-    val error: LiveData<Exception> = _error
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
 
     private val _user = MutableLiveData<User>()
     val user : LiveData<User> = _user
@@ -38,18 +38,23 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     private val _imageBitmap = MutableLiveData<Bitmap?>()
     val imageBitmap: LiveData<Bitmap?> = _imageBitmap
 
+    val loading = MutableLiveData<Boolean>()
+
     init{
         loadChats(appointmentId)
         loadAppointment()
         getUser()
     }
 
-    fun getUser(){
+    private fun getUser(){
         viewModelScope.launch {
             try{
+                loading.value = true
                 _user.value = UserRepository.getUserData().getOrThrow()!!.toObject()
+                loading.value = false
             }catch (e:Exception){
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
         }
     }
@@ -57,63 +62,58 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     fun getDoctor(id:String){
         viewModelScope.launch {
             try{
+                loading.value = true
                 DoctorRepository.getDoctor(id).getOrThrow()
+                loading.value = false
             }catch (e:Exception){
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
         }
     }
 
-    //TODO: Make the queue thingy realtime.
-    //TODO: 1. Make a listener for appointment document
-    //TODO: 2. Use that to show the Queue
-//    fun loadAppointment(){
-//        viewModelScope.launch {
-//            try{
-//                val docAppointment = AppointmentRepository.getAppointment(appointmentId).getOrThrow()
-//                val appointment = docAppointment.toObject<Appointment>()
-//                val numQueue = AppointmentRepository.getUserQueue(appointmentId,appointment!!.doctorId!!).getOrThrow()
-//                _appointment.value = appointment!!
-//                _queue.value = numQueue
-//            }catch (e:Exception){
-//                _error.value = e
-//            }
-//        }
-//    }
-
-    fun loadAppointment(){
+    private fun loadAppointment(){
         viewModelScope.launch{
             try{
+                loading.value = true
                 val regis = AppointmentRepository.getAppointment(
                     appointmentId,
                     onUpdate = {
+                        loading.value = true
                         _appointment.value = it.toObject()
                         getQueue(appointmentId,appointment.value!!.doctorId!!)
+                        loading.value = false
                     }
                 )
             }catch (e:Exception){
-                _error.value = e
+                loading.value = false
+                _message.value = e.cause?.message?:e.message?:"There was an error"
             }
         }
     }
 
-    fun loadChats(appointmentId: String) {
+    private fun loadChats(appointmentId: String) {
         ChatRepository.getMessages(appointmentId) {
+            loading.value = true
             val sortedChat = it.sortedBy { it.timestamp }.asReversed()
             _chatData.value = sortedChat
+            loading.value = false
         }
     }
 
     fun sendChat(message: Chat){
         viewModelScope.launch {
             try {
+                loading.value = true
                 if(imageBitmap.value==null)
                     ChatRepository.sendMessage(appointmentId,message)
                 else
                     ChatRepository.sendMessage(appointmentId,message, imageBitmap.value!!)
                 _imageBitmap.value = null
+                loading.value = false
             }catch (e: FirebaseFirestoreException) {
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value
             }
         }
     }
@@ -121,10 +121,13 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     fun getQueue(appointmentId: String, doctorId:String){
         viewModelScope.launch {
             try{
+                loading.value = true
                 val result = AppointmentRepository.getUserQueue(appointmentId, doctorId).getOrThrow()
                 _queue.value = result
+                loading.value = false
             }catch (e:Exception){
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
         }
     }

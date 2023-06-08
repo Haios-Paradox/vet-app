@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
 
         homeViewModel = ViewModelProvider(this).get(
             HomeViewModel::class.java)
-        homeViewModel.error.observe(this){
-            Toast.makeText(this,it.message, Toast.LENGTH_SHORT).show()
+        homeViewModel.message.observe(this){
+            Toast.makeText(this,it, Toast.LENGTH_SHORT).show()
         }
 
         homeViewModel.userData.observe(this){

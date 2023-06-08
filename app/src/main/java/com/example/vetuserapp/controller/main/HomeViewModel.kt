@@ -29,11 +29,13 @@ class HomeViewModel : ViewModel() {
     private val _userData = MutableLiveData<DocumentSnapshot>()
     val userData: LiveData<DocumentSnapshot> = _userData
 
-    private val _error = MutableLiveData<Exception>()
-    val error: LiveData<Exception> = _error
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
 
     private val _imageBitmap = MutableLiveData<Bitmap?>()
     val imageBitmap: LiveData<Bitmap?> = _imageBitmap
+
+    val loading = MutableLiveData<Boolean>()
 
     init{
         getUserAppointment()
@@ -49,26 +51,32 @@ class HomeViewModel : ViewModel() {
         _imageBitmap.value = compressedBitmap
     }
 
-    fun getUserAppointment(){
+    private fun getUserAppointment(){
         viewModelScope.launch {
             try{
+                loading.value = true
                 val result = AppointmentRepository.getAllUserAppointmentsHistory().getOrThrow()
                 if (result != null) {
                     _appointmentList.value = result.map { it.toObject() }
                 }
+                loading.value = false
             }catch (e:Exception){
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
 
         }
 
     }
-    fun getUserData(){
+    private fun getUserData(){
         viewModelScope.launch {
             try{
+                loading.value = true
                 _userData.value = UserRepository.getUserData().getOrThrow()
+                loading.value = false
             }catch (e:Exception){
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
         }
     }
@@ -76,11 +84,14 @@ class HomeViewModel : ViewModel() {
     fun updateUserData(userData: User){
         viewModelScope.launch {
             try{
-
-                UserRepository.createOrUpdateUserData(userData).getOrThrow()
+                loading.value = true
+                UserRepository.createOrUpdateUserData(userData)
                 getUserData()
+                loading.value = false
+                _message.value = "Update Successful"
             }catch(e:Exception) {
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
         }
     }
@@ -88,22 +99,29 @@ class HomeViewModel : ViewModel() {
     fun updateUserData(user:User, file:Bitmap){
         viewModelScope.launch {
             try{
+                loading.value = true
                 UserRepository.createOrUpdateUserData(user,file)
                 getUserData()
+                loading.value = false
+                _message.value = "Update Successful"
             }catch (e:Exception){
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
         }
 
     }
 
-    fun getSpecialist(){
+    private fun getSpecialist(){
         viewModelScope.launch {
             try{
+                loading.value = true
                 val specialist = DoctorRepository.getSpecialist().getOrThrow()
                 _specialistList.value = specialist?.map{it.toObject()}
+                loading.value = false
             }catch(e:Exception){
-                _error.value = e
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
         }
 

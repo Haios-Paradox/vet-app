@@ -24,7 +24,14 @@ class HistoryFragment : Fragment() {
     ): View {
         binding = FragmentHistoryBinding.inflate(inflater,container,false)
         binding.rvHistory.layoutManager = LinearLayoutManager(requireActivity())
-        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java).also {
+            it.loading.observe(requireActivity()) {
+                if (it)
+                    binding.progressBar6.visibility = View.GONE
+                else
+                    binding.progressBar6.visibility = View.VISIBLE
+            }
+        }
 
         homeViewModel.appointmentList.observe(requireActivity()){
             val appointments = it

@@ -34,7 +34,14 @@ class DoctorAppointmentFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentDoctorAppointmentBinding.inflate(layoutInflater,container, false)
-        doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java]
+        doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java].also {
+            it.loading.observe(requireActivity()) {
+                if (it)
+                    binding.progressBar3.visibility = View.GONE
+                else
+                    binding.progressBar3.visibility = View.VISIBLE
+            }
+        }
 
         doctorsViewModel.newAppointment.observe(requireActivity()){
             startActivity(

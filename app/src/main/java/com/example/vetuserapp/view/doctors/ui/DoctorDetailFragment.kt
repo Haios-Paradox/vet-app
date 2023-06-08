@@ -22,7 +22,14 @@ class DoctorDetailFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View{
         binding = FragmentDoctorDetailBinding.inflate(layoutInflater,container, false)
-        doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java]
+        doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java].also {
+            it.loading.observe(requireActivity()) {
+                if (it)
+                    binding.progressBar4.visibility = View.GONE
+                else
+                    binding.progressBar4.visibility = View.VISIBLE
+            }
+        }
         val selection = doctorsViewModel.selectedDoctor
         val doctor = selection
         if(doctor!=null) setupView(doctor)

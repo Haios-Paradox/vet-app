@@ -27,7 +27,14 @@ class DoctorListFragment : Fragment() {
     ): View {
         binding = FragmentDoctorListBinding.inflate(layoutInflater,container, false)
         binding.rvDoctorList.layoutManager = LinearLayoutManager(requireActivity())
-        doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java]
+        doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java].also {
+            it.loading.observe(requireActivity()) {
+                if (it)
+                    binding.progressBar5.visibility = View.GONE
+                else
+                    binding.progressBar5.visibility = View.VISIBLE
+            }
+        }
         doctorsViewModel.doctorList.observe(requireActivity()){data ->
             val doctors = data.map{it.toObject<Doctor>()}
             val filtered = doctors.filter { it?.queue?.size!! + it.finished_queue?.size!! < it.limit!! && it.available == true }
