@@ -26,7 +26,7 @@ class HistoryFragment : Fragment() {
         binding.rvHistory.layoutManager = LinearLayoutManager(requireActivity())
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java).also {
             it.loading.observe(requireActivity()) {
-                if (it)
+                if (!it)
                     binding.progressBar6.visibility = View.GONE
                 else
                     binding.progressBar6.visibility = View.VISIBLE

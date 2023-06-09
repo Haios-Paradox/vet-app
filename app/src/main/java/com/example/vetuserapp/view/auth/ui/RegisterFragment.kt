@@ -24,7 +24,7 @@ class RegisterFragment : Fragment() {
 
         authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java].also {
             it.loading.observe(requireActivity()) {
-                if (it)
+                if (!it)
                     binding.progressBar.visibility = View.GONE
                 else
                     binding.progressBar.visibility = View.VISIBLE

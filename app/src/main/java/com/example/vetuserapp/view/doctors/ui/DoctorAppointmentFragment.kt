@@ -36,7 +36,7 @@ class DoctorAppointmentFragment : Fragment() {
         binding = FragmentDoctorAppointmentBinding.inflate(layoutInflater,container, false)
         doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java].also {
             it.loading.observe(requireActivity()) {
-                if (it)
+                if (!it)
                     binding.progressBar3.visibility = View.GONE
                 else
                     binding.progressBar3.visibility = View.VISIBLE

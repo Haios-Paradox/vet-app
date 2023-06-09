@@ -49,15 +49,21 @@ object AppointmentRepository {
 
     suspend fun getUserQueue(appointmentId: String, doctorId: String): Result<Int> {
         Log.e("AppointmentRepo", "getUserQueue")
-        try{
+        return try{
             val docDoctor = doctorRef.document(doctorId).get().await()
             val doctor = docDoctor.toObject<Doctor>()
-            val appointments = appointRef.whereIn("id",doctor?.queue!!).get().await()
-            val sortedAppointments = appointments.toObjects<Appointment>().sortedBy { it.timestamp }
-            val result = getQueueNumber(sortedAppointments,appointmentId)
-            return Result.success(result)
+            if(doctor!!.queue!!.isNotEmpty()) {
+                val appointments = appointRef.whereIn("id", doctor.queue!!).get().await()
+                val sortedAppointments =
+                    appointments.toObjects<Appointment>().sortedBy { it.timestamp }
+                val result = getQueueNumber(sortedAppointments, appointmentId)
+                Log.e("Here", "At least it gets here")
+                Result.success(result)
+            }else{
+                Result.success(-1)
+            }
         }catch (e:Exception){
-            return Result.failure(e)
+            Result.failure(e)
         }
     }
 
@@ -146,6 +152,17 @@ object AppointmentRepository {
         } catch (e: Exception) {
             throw e
         }
+    }
+
+    suspend fun updateAppointment(appointment:Appointment) {
+        appointRef.document(appointment.id!!).set(appointment).await()
+    }
+
+    suspend fun updateAppointment(appointment:Appointment, file:Bitmap){
+        val link = sendImage(file,appointment.id!!)
+        appointment.payment = link
+        appointRef.document(appointment.id!!).set(appointment)
+
     }
 
 }

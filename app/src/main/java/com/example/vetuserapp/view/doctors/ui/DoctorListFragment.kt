@@ -29,7 +29,7 @@ class DoctorListFragment : Fragment() {
         binding.rvDoctorList.layoutManager = LinearLayoutManager(requireActivity())
         doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java].also {
             it.loading.observe(requireActivity()) {
-                if (it)
+                if (!it)
                     binding.progressBar5.visibility = View.GONE
                 else
                     binding.progressBar5.visibility = View.VISIBLE

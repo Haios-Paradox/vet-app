@@ -42,7 +42,7 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater,container,false)
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java).also {
             it.loading.observe(requireActivity()) {
-                if (it)
+                if (!it)
                     binding.progressBar8.visibility = View.GONE
                 else
                     binding.progressBar8.visibility = View.VISIBLE

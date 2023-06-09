@@ -23,11 +23,11 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     private val _user = MutableLiveData<User>()
     val user : LiveData<User> = _user
 
+    private val _doctor = MutableLiveData<Doctor>()
+    val doctor : LiveData<Doctor> = _doctor
+
     private val _chatData = MutableLiveData<List<Chat>>()
     val chatData: LiveData<List<Chat>> = _chatData
-
-    private val _doctorData = MutableLiveData<Doctor>()
-    val doctorData:LiveData<Doctor> = _doctorData
 
     private val _appointment = MutableLiveData<Appointment>()
     val appointment: LiveData<Appointment> = _appointment
@@ -37,6 +37,9 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
 
     private val _imageBitmap = MutableLiveData<Bitmap?>()
     val imageBitmap: LiveData<Bitmap?> = _imageBitmap
+
+    private val _payBitmap = MutableLiveData<Bitmap?>()
+    val payBitmap : LiveData<Bitmap?> = _payBitmap
 
     val loading = MutableLiveData<Boolean>()
 
@@ -63,7 +66,7 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
         viewModelScope.launch {
             try{
                 loading.value = true
-                DoctorRepository.getDoctor(id).getOrThrow()
+                _doctor.value = DoctorRepository.getDoctor(id).getOrThrow().toObject()
                 loading.value = false
             }catch (e:Exception){
                 _message.value = e.cause?.message?:e.message?:"There was an error"
@@ -118,7 +121,7 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
         }
     }
 
-    fun getQueue(appointmentId: String, doctorId:String){
+    private fun getQueue(appointmentId: String, doctorId:String){
         viewModelScope.launch {
             try{
                 loading.value = true
@@ -138,6 +141,28 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
         val compressedBitmap =
             BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.size())
         _imageBitmap.value = compressedBitmap
+    }
+
+    fun storePayment(bitmap: Bitmap, quality: Int) {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+        val compressedBitmap =
+            BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.size())
+        _payBitmap.value = compressedBitmap
+    }
+    fun updateAppointment(appointment: Appointment){
+        viewModelScope.launch {
+            try{
+                if(payBitmap.value !=null)
+                    AppointmentRepository.updateAppointment(appointment,payBitmap.value!!)
+                else
+                    AppointmentRepository.updateAppointment(appointment)
+            }catch (e:Exception){
+                _message.value = e.cause?.message?:e.message?:"There was an error"
+            }
+
+        }
+
     }
 }
 

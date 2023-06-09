@@ -19,7 +19,7 @@ class PrescriptionFragment : Fragment() {
         binding = FragmentPrescriptionBinding.inflate(inflater,container,false)
         diagnosisViewModel = ViewModelProvider(requireActivity())[DiagnosisViewModel::class.java].also {
             it.loading.observe(requireActivity()) {
-                if (it)
+                if (!it)
                     binding.progressBar7.visibility = View.GONE
                 else
                     binding.progressBar7.visibility = View.VISIBLE

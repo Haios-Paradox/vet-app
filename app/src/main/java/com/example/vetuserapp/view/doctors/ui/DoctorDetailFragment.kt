@@ -24,7 +24,7 @@ class DoctorDetailFragment : Fragment() {
         binding = FragmentDoctorDetailBinding.inflate(layoutInflater,container, false)
         doctorsViewModel = ViewModelProvider(requireActivity())[DoctorsViewModel::class.java].also {
             it.loading.observe(requireActivity()) {
-                if (it)
+                if (!it)
                     binding.progressBar4.visibility = View.GONE
                 else
                     binding.progressBar4.visibility = View.VISIBLE
@@ -41,8 +41,13 @@ class DoctorDetailFragment : Fragment() {
 
         val queue = doctor.queue?.size?:0
         binding.tvDetailName.text = doctor.name
-        binding.tvDetailAbout.text = doctor.description
-        binding.tvDetailQueueNum.text = queue.toString()
+        binding.tvNameP.text = doctor.name
+        binding.tvDescP.text = doctor.description
+        binding.tvExpertiseP.text = doctor.experience
+        binding.tvExpertiseD.text = doctor.specialist
+        binding.tvEmailP.text = doctor.email
+        binding.tvFeeD.text = doctor.fee.toString()
+        binding.tvFeeCuz.text = queue.toString()
         binding.btnBookAppointment.setOnClickListener {
             findNavController().navigate(R.id.doctorAppointmentFragment)
         }
