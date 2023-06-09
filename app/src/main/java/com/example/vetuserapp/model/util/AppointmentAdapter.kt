@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vetuserapp.databinding.ItemAppointmentRowBinding
 import com.example.vetuserapp.model.data.Appointment
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AppointmentAdapter(private val appointment: List<Appointment>): RecyclerView.Adapter<ViewHolderAppointment>() {
 
@@ -32,7 +34,7 @@ class AppointmentAdapter(private val appointment: List<Appointment>): RecyclerVi
     override fun onBindViewHolder(holder: ViewHolderAppointment, position: Int) {
         with(holder){
             with(binding){
-                tvAppoDate.text = appointment[position].timestamp.toString()
+                tvAppoDate.text = convertTimestampToString(appointment[position].timestamp!!)
                 tvNameDoctor.text = appointment[position].doctorName.toString()
                 tvStatus.text = appointment[position].complete.toString()
                 root.setOnClickListener {
@@ -40,6 +42,12 @@ class AppointmentAdapter(private val appointment: List<Appointment>): RecyclerVi
                 }
             }
         }
+    }
+    fun convertTimestampToString(timestamp: Long): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = timestamp
+        return sdf.format(calendar.time)
     }
 }
 

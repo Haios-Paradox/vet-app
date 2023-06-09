@@ -27,9 +27,14 @@ class PrescriptionFragment : Fragment() {
         }
 
         diagnosisViewModel.appointment.observe(requireActivity()){
-            binding.tvAnalysis.text = it.analysis
             binding.tvDoctorNamePrescription.text = it.doctorName
-            binding.tvTreatment.text = it.treatment
+            if(it.paid == true) {
+                binding.tvAnalysis.text = it.analysis
+                binding.tvTreatment.text = it.treatment
+            }else{
+                binding.tvTreatment.text = "Waiting for Payment"
+                binding.tvAnalysis.text = "Waiting for Payment"
+            }
         }
 
         return binding.root
