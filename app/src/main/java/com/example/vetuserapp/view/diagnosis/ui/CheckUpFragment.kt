@@ -43,9 +43,9 @@ class CheckUpFragment : Fragment() {
             Glide.with(binding.ivPetr).load(appointment.photo).into(binding.ivPetr)
             binding.edProblemCheck.setText(appointment.description)
             binding.edPetName.setText(appointment.patientName)
+            if(appointment.payment!=null)
+                Glide.with(binding.ivPaymenr).load(appointment.payment).into(binding.ivPaymenr)
             binding.btnSaveAppointment.setOnClickListener {
-                if(appointment.payment!=null)
-                    Glide.with(binding.ivPaymenr).load(appointment.payment).into(binding.ivPaymenr)
                 appointment.patientName = binding.edPetName.text.toString()
                 appointment.description = binding.edProblemCheck.text.toString()
                 diagnosisViewModel.updateAppointment(appointment)
