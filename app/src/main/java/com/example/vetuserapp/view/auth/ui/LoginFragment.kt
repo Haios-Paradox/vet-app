@@ -44,6 +44,9 @@ class LoginFragment : Fragment() {
         binding.textViewRegisterLink.setOnClickListener {
             it.findNavController().navigate(R.id.registerFragment)
         }
+        binding.textViewForgotPasswordLink.setOnClickListener {
+            it.findNavController().navigate(R.id.forgotFragment)
+        }
 
 
         return binding.root

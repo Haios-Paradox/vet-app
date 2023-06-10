@@ -15,4 +15,9 @@
         android:name="com.example.vetuserapp.view.auth.ui.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/forgotFragment"
+        android:name="com.example.vetuserapp.view.auth.ui.ForgotFragment"
+        android:label="fragment_forgot"
+        tools:layout="@layout/fragment_forgot" />
 </navigation>

@@ -69,7 +69,20 @@ object UserRepository{
             throw e
         }
     }
-
+    fun resetPassword(
+        email:String,
+        onSuccess: (String?) -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onSuccess("Email Sent")
+                }else{
+                    onFailure(Exception("It Just Don't Work IDK Why"))
+                }
+            }.addOnFailureListener(onFailure)
+    }
 
 
 }
