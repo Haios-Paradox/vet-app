@@ -153,12 +153,18 @@ class DiagnosisViewModel(private val appointmentId: String): ViewModel(){
     fun updateAppointment(appointment: Appointment){
         viewModelScope.launch {
             try{
-                if(payBitmap.value !=null)
-                    AppointmentRepository.updateAppointment(appointment,payBitmap.value!!)
-                else
+                loading.value = true
+                if(payBitmap.value !=null) {
+                    AppointmentRepository.updateAppointment(appointment, payBitmap.value!!)
+                    loading.value = false
+                }
+                else {
                     AppointmentRepository.updateAppointment(appointment)
+                    loading.value = false
+                }
             }catch (e:Exception){
                 _message.value = e.cause?.message?:e.message?:"There was an error"
+                loading.value = false
             }
 
         }
