@@ -11,6 +11,7 @@ import com.example.vetuserapp.R
 import com.example.vetuserapp.controller.doctors.DoctorsViewModel
 import com.example.vetuserapp.databinding.FragmentDoctorDetailBinding
 import com.example.vetuserapp.model.data.Doctor
+import java.text.NumberFormat
 
 class DoctorDetailFragment : Fragment() {
 
@@ -46,11 +47,20 @@ class DoctorDetailFragment : Fragment() {
         binding.tvExpertiseP.text = doctor.experience
         binding.tvExpertiseD.text = doctor.specialist
         binding.tvEmailP.text = doctor.email
-        binding.tvFeeD.text = doctor.fee.toString()
+        binding.tvFeeD.text = doctor.fee?.toInt()?.formatThousand()?:0.0.toInt().formatThousand()
         binding.tvFeeCuz.text = queue.toString()
         binding.btnBookAppointment.setOnClickListener {
             findNavController().navigate(R.id.doctorAppointmentFragment)
         }
     }
+
+    fun Int.formatThousand(): String {
+        val nf = NumberFormat.getInstance()
+        nf.maximumFractionDigits = 3
+        nf.minimumFractionDigits = 0
+        nf.isGroupingUsed = true
+        return nf.format(this)
+    }
+
 
 }

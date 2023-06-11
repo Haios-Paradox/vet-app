@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.vetuserapp.controller.diagnosis.DiagnosisViewModel
 import com.example.vetuserapp.databinding.FragmentCheckUpBinding
+import java.text.NumberFormat
 
 class CheckUpFragment : Fragment() {
     private lateinit var binding : FragmentCheckUpBinding
@@ -61,7 +62,7 @@ class CheckUpFragment : Fragment() {
         }
 
         diagnosisViewModel.doctor.observe(requireActivity()){
-            binding.tvFeeCuz.setText(it.fee.toString())
+            binding.tvFeeCuz.setText(it.fee?.toInt()?.formatThousand() ?:0.formatThousand())
         }
 
         diagnosisViewModel.payBitmap.observe(requireActivity()){
@@ -85,6 +86,13 @@ class CheckUpFragment : Fragment() {
         }
 
         return binding.root
+    }
+    fun Int.formatThousand(): String {
+        val nf = NumberFormat.getInstance()
+        nf.maximumFractionDigits = 3
+        nf.minimumFractionDigits = 0
+        nf.isGroupingUsed = true
+        return nf.format(this)
     }
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
