@@ -22,18 +22,11 @@ class LoginFragment : Fragment() {
     ): View{
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater,container,false)
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java].also{
-            it.loading.observe(requireActivity()){
-                if(!it)
-                    binding.progressBar.visibility = View.GONE
-                else
-                    binding.progressBar.visibility = View.VISIBLE
-            }
-        }
+        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
 
         binding.buttonLogin.setOnClickListener {
-            val email = binding.editTextLoginEmail.text.toString()
-            val pass = binding.editTextLoginPwd.text.toString()
+            val email = binding.editEmailLogin.text.toString()
+            val pass = binding.editPassLogin.text.toString()
 
             if(email.isNotEmpty() && pass.isNotEmpty())
                 authViewModel.login(email,pass)
@@ -41,10 +34,10 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireActivity(),"Please Fill In All Fields", Toast.LENGTH_SHORT).show()
         }
 
-        binding.textViewRegisterLink.setOnClickListener {
+        binding.tvRegister.setOnClickListener {
             it.findNavController().navigate(R.id.registerFragment)
         }
-        binding.textViewForgotPasswordLink.setOnClickListener {
+        binding.tvForgot.setOnClickListener {
             it.findNavController().navigate(R.id.forgotFragment)
         }
 

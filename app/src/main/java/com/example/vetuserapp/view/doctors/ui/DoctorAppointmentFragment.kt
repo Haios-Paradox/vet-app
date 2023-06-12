@@ -65,8 +65,11 @@ class DoctorAppointmentFragment : Fragment() {
     }
 
     private fun bookAppointment() {
-        if(doctorsViewModel.imageBitmap.value==null)
-            Toast.makeText(requireActivity(),"Please Insert A Photo Of Your Pet", Toast.LENGTH_LONG).show()
+        if(doctorsViewModel.imageBitmap.value==null ||
+            binding.edAppoName.text.toString().isEmpty() ||
+            binding.edAppoDescription.text.toString().isEmpty()
+        )
+            Toast.makeText(requireActivity(),"Please Insert A Photo Of Your Pet and Complete All Form", Toast.LENGTH_LONG).show()
         else
             doctorsViewModel.createAppointment(
                 binding.edAppoName.text.toString(),

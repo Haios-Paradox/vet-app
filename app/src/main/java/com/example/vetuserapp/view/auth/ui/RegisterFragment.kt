@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.vetuserapp.R
 import com.example.vetuserapp.controller.auth.AuthViewModel
 import com.example.vetuserapp.databinding.FragmentRegisterBinding
 import com.example.vetuserapp.model.data.User
@@ -22,32 +24,23 @@ class RegisterFragment : Fragment() {
     ): View? {
         binding = FragmentRegisterBinding.inflate(inflater,container,false)
 
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java].also {
-            it.loading.observe(requireActivity()) {
-                if (!it)
-                    binding.progressBar.visibility = View.GONE
-                else
-                    binding.progressBar.visibility = View.VISIBLE
+        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
+        binding.buttonRegister.setOnClickListener {
+            val name = binding.editNameRegister.text.toString()
+            val email = binding.editEmailRegister.text.toString()
+            val pass = binding.editPassRegister.text.toString()
+
+            if(email.isNotEmpty() && pass.isNotEmpty() && name.isNotEmpty()){
+                authViewModel.register(email,pass, User(name = name, email = email))
+            }
+            else{
+                Toast.makeText(requireActivity(),"Please Fill All In", Toast.LENGTH_SHORT).show()
             }
         }
 
-        binding.buttonRegister.setOnClickListener {
-            val email = binding.editTextRegisterEmail.text.toString()
-            val pass = binding.editTextRegisterPassword.text.toString()
-            val name = binding.editTextRegisterFullName.text.toString()
-            val phone = binding.editTextRegisterMobile.text.toString()
-
-            if(email.isNotEmpty() && pass.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty())
-                authViewModel.register(
-                    email,pass,
-                    User("",name,email,phone)
-                )
-            else
-                Toast.makeText(requireActivity(),"Please Fill In All Fields", Toast.LENGTH_SHORT).show()
+        binding.tvRegister.setOnClickListener {
+            findNavController().navigate(R.id.loginFragment)
         }
-
-
-
 
 
         return binding.root

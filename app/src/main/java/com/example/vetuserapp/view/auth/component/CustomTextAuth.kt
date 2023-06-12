@@ -33,16 +33,16 @@ class CustomTextAuth: TextInputLayout {
         when(this.tag){
             "password" -> {
                 this.hint = "Password"
-                this.startIconDrawable = AppCompatResources.getDrawable(context,R.drawable.ic_lock)
+                this.startIconDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_lock)
             }
             "email" -> {
                 this.hint = "Email"
-                this.startIconDrawable = AppCompatResources.getDrawable(context,R.drawable.ic_email)
+                this.startIconDrawable = AppCompatResources.getDrawable(context,R.drawable.baseline_email_24)
 
             }
             "username" -> {
                 this.hint = "Name"
-                this.startIconDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_profile)
+                this.startIconDrawable = AppCompatResources.getDrawable(context,R.drawable.baseline_person_24)
             }
             else ->
                 this.hint = "Salah Tag kayaknya... Atau Tagnya ngga kebaca"
